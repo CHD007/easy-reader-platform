@@ -1,1 +1,1 @@
-easy-reader
+Easy Reader Porject
