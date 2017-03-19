@@ -1,0 +1,76 @@
+.wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  font-weight: bold;
+  text-align: center;
+}
+
+.main {
+  height: 100vh;
+  flex: 3 0px;
+}
+
+nav{
+  position: fixed;
+}
+
+.aside-1 {
+  background-color: rebeccapurple;
+  order: 1;
+}
+
+.main {
+  background-color: greenyellow;
+  order:2;
+}
+
+.aside-2 {
+  background-color: pink;
+  order: 3;
+}
+
+.footer{
+  background-color: gray;
+  order: 4;
+  height: 10vh;
+}
+
+.header {
+  background-color: gray;
+  height: 9vh;
+}
+
+/* We tell all items to be 100% width */
+.header, .main, .nav, .aside, .footer {
+  flex: 1 100%;
+}
+
+/* Medium screens */
+@media all and (min-width: 600px) {
+  /* We tell both sidebars to share a row */
+  .aside { flex: 1 auto; }
+}
+
+@media all and (min-width: 800px) {
+  .main {
+    flex: 4 0px;
+  }
+
+  .aside-1 {
+    order: 1;
+  }
+
+  .main {
+    order:2;
+  }
+
+  .aside-2 {
+    order: 3;
+  }
+
+  .footer{
+    order: 4;
+  }
+
+
+}
