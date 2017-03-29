@@ -5,8 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceUnit;
 
 /**
- * Entity Manager Factory
- * @author Чернышов Даниил chernyshov.daniil@nicetu.spb.ru
+ * @author dchernyshov
  */
 @Stateless
 public class EntityManagerEJB {

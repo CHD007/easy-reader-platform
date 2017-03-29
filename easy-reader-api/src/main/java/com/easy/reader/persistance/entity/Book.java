@@ -1,0 +1,20 @@
+package com.easy.reader.persistance.entity;
+
+import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.List;
+
+/**
+ * Сущность "Книга". Книга состоит из слов "BookWord"
+ * @author dchernyshov
+ */
+@Entity
+@Data
+public class Book extends BaseEntity {
+    private String bookName;
+
+    @OneToMany(mappedBy = "bookFk")
+    private List<BookWord> bookWords;
+}
