@@ -5,6 +5,7 @@ import com.easy.reader.persistance.exceptions.DaoStoreException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.PersistenceUnit;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -20,11 +21,11 @@ public abstract class GenericJpaDao<T, I extends Serializable> implements Generi
     private static int MAX_BATCH = 50;
     private final Class<T> persistentClass;    //сущность с которой работаем
 
+    @PersistenceUnit
     private EntityManager entityManager; //менеджер транзаций
 
-    public GenericJpaDao(Class<T> persistentClass, EntityManager entityManager) {
+    public GenericJpaDao(Class<T> persistentClass) {
         this.persistentClass = persistentClass;
-        this.entityManager = entityManager;
     }
 
     protected EntityManager getEntityManager() {

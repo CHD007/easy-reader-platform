@@ -18,6 +18,10 @@ public class UserWord extends BaseEntity {
     @JoinColumn(name = "id")
     private Word wordFk;
 
+    @OneToOne
+    @JoinColumn(name = "id")
+    private BookWord bookWordFk;
+
     @ManyToOne
     private User userFk;
 }
