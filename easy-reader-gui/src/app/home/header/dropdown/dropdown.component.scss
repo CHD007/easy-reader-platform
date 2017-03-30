@@ -1,0 +1,38 @@
+:host {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  display: block;
+  position: absolute;
+  top: 64px;
+  width: 100%;
+
+  ul {
+    background: lighten(lightcoral, 5%);
+  }
+
+  .drop-down {
+    z-index: 8;
+    list-style: none;
+  }
+
+  li a, span {
+    font-family: "Roboto", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  a {
+    line-height: 48px;
+  }
+
+  li{
+    transition: background-color .3s;
+    padding-left: 60px;
+
+    &:hover {
+      background-color: transparentize(white,0.8);
+    }
+  }
+
+}

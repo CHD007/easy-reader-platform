@@ -8,6 +8,9 @@ import {HomeComponent} from './home/home.component';
 import {routing} from './app.routing';
 
 import {removeNgStyles, createNewHosts} from '@angularclass/hmr';
+import {HeaderComponent} from "./home/header/header.component";
+import {LeftMenu} from "./home/left-menu/leftmenu.component";
+import {DropdownComponent} from "./home/header/dropdown/dropdown.component";
 
 @NgModule({
   imports: [
@@ -18,7 +21,10 @@ import {removeNgStyles, createNewHosts} from '@angularclass/hmr';
   ],
   declarations: [
     AppComponent,
+    DropdownComponent,
+    LeftMenu,
     HomeComponent,
+    HeaderComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
