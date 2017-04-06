@@ -1,7 +1,9 @@
 package com.easy.reader.persistance.dao;
 
+import com.easy.reader.persistance.entity.BaseEntity;
 import com.easy.reader.persistance.exceptions.DaoStoreException;
 
+import javax.ejb.Stateless;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +13,8 @@ import java.util.List;
  * @param <I> тип id сущности
  * @author dchernyshov
  */
-public interface GenericDao<T, I extends Serializable> {
+@Stateless
+public interface GenericDao<T extends BaseEntity, I extends Serializable> {
     /**
      * Метод находит объект сущности в БД по его Id
      *
@@ -49,17 +52,6 @@ public interface GenericDao<T, I extends Serializable> {
      * @param entity - обновляемая сущность
      */
     T update(T entity) throws DaoStoreException;
-
-    /**
-     * Форсит изменения произведенные в сушностях
-     * во время транзакции
-     */
-    void flush();
-
-    /**
-     * Очищает контекст сессии
-     */
-    void clean();
 
     Collection<T> saveAll(Collection<T> entities) throws DaoStoreException;
 }

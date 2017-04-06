@@ -1,15 +1,14 @@
 package com.easy.reader.persistance.exceptions;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Кастомное исключение для DAO-объектов. Создано для
  * удобства.
  * @author dchernyshov
  */
+@NoArgsConstructor
 public class DaoStoreException extends Exception {
-    public DaoStoreException() {
-        super();
-    }
-
     public DaoStoreException(String message) {
         super(message);
     }

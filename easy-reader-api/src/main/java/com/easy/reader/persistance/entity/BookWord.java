@@ -1,6 +1,7 @@
 package com.easy.reader.persistance.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
  */
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class BookWord extends BaseEntity {
     @ElementCollection
     private List<String> context = new ArrayList<>();

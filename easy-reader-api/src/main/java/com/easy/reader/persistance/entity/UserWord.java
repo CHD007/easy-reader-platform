@@ -1,6 +1,7 @@
 package com.easy.reader.persistance.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
  */
 @Entity(name = "UserWord")
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class UserWord extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Status status;

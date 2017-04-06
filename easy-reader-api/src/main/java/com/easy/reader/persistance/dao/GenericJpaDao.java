@@ -4,8 +4,8 @@ import com.easy.reader.persistance.entity.BaseEntity;
 import com.easy.reader.persistance.exceptions.DaoStoreException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnit;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -17,11 +17,10 @@ import java.util.List;
  * сущностей реализуются в их DAO-объектах
  * @author dchernyshov
  */
-public abstract class GenericJpaDao<T, I extends Serializable> implements GenericDao<T, I> {
-    private static int MAX_BATCH = 50;
+public abstract class GenericJpaDao<T extends BaseEntity, I extends Serializable> implements GenericDao<T, I> {
     private final Class<T> persistentClass;    //сущность с которой работаем
 
-    @PersistenceUnit
+    @PersistenceContext(unitName = "ReaderBackend")
     private EntityManager entityManager; //менеджер транзаций
 
     public GenericJpaDao(Class<T> persistentClass) {
@@ -34,10 +33,6 @@ public abstract class GenericJpaDao<T, I extends Serializable> implements Generi
 
     public Class<T> getPersistentClass() {
         return persistentClass;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 
     /**
@@ -72,11 +67,8 @@ public abstract class GenericJpaDao<T, I extends Serializable> implements Generi
     @Override
     public T save(T entity) throws DaoStoreException {
         try {
-            entityManager.getTransaction().begin();
             entityManager.persist(entity);
-            entityManager.getTransaction().commit();
         } catch (PersistenceException ex) {
-            entityManager.getTransaction().rollback();
             throw new DaoStoreException(ex);
         }
         return entity;
@@ -85,18 +77,10 @@ public abstract class GenericJpaDao<T, I extends Serializable> implements Generi
     @Override
     public Collection<T> saveAll(Collection<T> entities) throws DaoStoreException {
         try {
-            int i = 0;
-            entityManager.getTransaction().begin();
             for(T entity : entities) {
                 entityManager.persist(entity);
-                if( i % MAX_BATCH == 0 ) {
-                    flush();
-                    clean();
-                }
             }
-            entityManager.getTransaction().commit();
         } catch (PersistenceException ex) {
-            entityManager.getTransaction().rollback();
             throw new DaoStoreException(ex);
         }
         return entities;
@@ -113,35 +97,15 @@ public abstract class GenericJpaDao<T, I extends Serializable> implements Generi
     @Override
     public void delete(T entity) throws DaoStoreException {
         try {
-            entityManager.getTransaction().begin();
             if (BaseEntity.class.isAssignableFrom(persistentClass)) {
                 entityManager.remove(entityManager.getReference(entity.getClass(), ((BaseEntity) entity).getId()));
             } else {
                 T mergedEntity = entityManager.merge(entity);
                 entityManager.remove(mergedEntity);
             }
-            entityManager.getTransaction().commit();
         } catch (PersistenceException ex) {
-            entityManager.getTransaction().rollback();
             throw new DaoStoreException(ex);
         }
-    }
-
-    /**
-     * Форсит изменения произведенные в сушностях
-     * во время транзакции
-     */
-    @Override
-    public void flush() {
-        entityManager.flush();
-    }
-
-    /**
-     * Очищает контекст сессии
-     */
-    @Override
-    public void clean() {
-        entityManager.clear();
     }
 
     /**
@@ -152,11 +116,8 @@ public abstract class GenericJpaDao<T, I extends Serializable> implements Generi
     @Override
     public T update(T entity) throws DaoStoreException {
         try {
-            entityManager.getTransaction().begin();
             entityManager.merge(entity);
-            entityManager.getTransaction().commit();
         } catch (PersistenceException ex) {
-            entityManager.getTransaction().rollback();
             throw new DaoStoreException(ex);
         }
         return entity;
