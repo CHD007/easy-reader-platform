@@ -22,6 +22,8 @@ public interface GenericDao<T extends BaseEntity, I extends Serializable> {
      * @return - Объект сущности
      */
     T findById(I id);
+    
+    void create(T entity) throws DaoStoreException;
 
     /**
      * Метод находит все объекты сущности в БД

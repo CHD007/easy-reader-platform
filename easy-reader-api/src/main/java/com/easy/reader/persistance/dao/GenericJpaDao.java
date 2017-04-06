@@ -73,7 +73,16 @@ public abstract class GenericJpaDao<T extends BaseEntity, I extends Serializable
         }
         return entity;
     }
-
+    
+    @Override
+    public void create(T entity) throws DaoStoreException {
+        try {
+            entityManager.merge(entity);
+        } catch (PersistenceException ex) {
+            throw new DaoStoreException(ex);
+        }
+    }
+    
     @Override
     public Collection<T> saveAll(Collection<T> entities) throws DaoStoreException {
         try {
