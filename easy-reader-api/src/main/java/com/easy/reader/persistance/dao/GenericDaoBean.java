@@ -1,11 +1,11 @@
 package com.easy.reader.persistance.dao;
 
 import com.easy.reader.persistance.entity.BaseEntity;
-import com.easy.reader.persistance.exceptions.DaoStoreException;
 
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -17,18 +17,19 @@ import java.util.List;
  * сущностей реализуются в их DAO-объектах
  * @author dchernyshov
  */
-public abstract class GenericJpaDao<T extends BaseEntity, I extends Serializable> implements GenericDao<T, I> {
-    private final Class<T> persistentClass;    //сущность с которой работаем
+@Singleton
+@Startup
+public class GenericDaoBean<T extends BaseEntity, I extends Serializable> {
+    private Class<T> persistentClass;    //сущность с которой работаем
 
     @PersistenceContext(unitName = "ReaderBackend")
     private EntityManager entityManager; //менеджер транзаций
-
-    public GenericJpaDao(Class<T> persistentClass) {
-        this.persistentClass = persistentClass;
+    
+    public GenericDaoBean() {
     }
-
-    protected EntityManager getEntityManager() {
-        return entityManager;
+    
+    public GenericDaoBean(Class<T> persistentClass) {
+        this.persistentClass = persistentClass;
     }
 
     public Class<T> getPersistentClass() {
@@ -41,7 +42,6 @@ public abstract class GenericJpaDao<T extends BaseEntity, I extends Serializable
      * @param id - id сущности
      * @return - Объект сущности
      */
-    @Override
     public T findById(I id) {
         return entityManager.find(getPersistentClass(), id);
     }
@@ -52,7 +52,6 @@ public abstract class GenericJpaDao<T extends BaseEntity, I extends Serializable
      * @return - коллекция объектов сущности
      */
     @SuppressWarnings({"unchecked", "NonJREEmulationClassesInClientCode"})
-    @Override
     public List<T> findAll() {
         return entityManager
                 .createQuery("select x from " + getPersistentClass().getSimpleName() + " x")
@@ -64,35 +63,18 @@ public abstract class GenericJpaDao<T extends BaseEntity, I extends Serializable
      *
      * @param entity - сохраняемый объект сущности
      */
-    @Override
-    public T save(T entity) throws DaoStoreException {
-        try {
+    public void save(T entity) {
+        entityManager.persist(entity);
+    }
+    
+    public void create(T entity) {
+        entityManager.merge(entity);
+    }
+    
+    public void saveAll(Collection<T> entities) {
+        for(T entity : entities) {
             entityManager.persist(entity);
-        } catch (PersistenceException ex) {
-            throw new DaoStoreException(ex);
         }
-        return entity;
-    }
-    
-    @Override
-    public void create(T entity) throws DaoStoreException {
-        try {
-            entityManager.merge(entity);
-        } catch (PersistenceException ex) {
-            throw new DaoStoreException(ex);
-        }
-    }
-    
-    @Override
-    public Collection<T> saveAll(Collection<T> entities) throws DaoStoreException {
-        try {
-            for(T entity : entities) {
-                entityManager.persist(entity);
-            }
-        } catch (PersistenceException ex) {
-            throw new DaoStoreException(ex);
-        }
-        return entities;
     }
 
     /**
@@ -103,17 +85,12 @@ public abstract class GenericJpaDao<T extends BaseEntity, I extends Serializable
      * @param entity - удаляемый объект сущности
      */
     @SuppressWarnings("NonJREEmulationClassesInClientCode")
-    @Override
-    public void delete(T entity) throws DaoStoreException {
-        try {
-            if (BaseEntity.class.isAssignableFrom(persistentClass)) {
-                entityManager.remove(entityManager.getReference(entity.getClass(), ((BaseEntity) entity).getId()));
-            } else {
-                T mergedEntity = entityManager.merge(entity);
-                entityManager.remove(mergedEntity);
-            }
-        } catch (PersistenceException ex) {
-            throw new DaoStoreException(ex);
+    public void delete(T entity) {
+        if (BaseEntity.class.isAssignableFrom(persistentClass)) {
+            entityManager.remove(entityManager.getReference(entity.getClass(), ((BaseEntity) entity).getId()));
+        } else {
+            T mergedEntity = entityManager.merge(entity);
+            entityManager.remove(mergedEntity);
         }
     }
 
@@ -122,13 +99,7 @@ public abstract class GenericJpaDao<T extends BaseEntity, I extends Serializable
      *
      * @param entity - обновляемая сущность
      */
-    @Override
-    public T update(T entity) throws DaoStoreException {
-        try {
-            entityManager.merge(entity);
-        } catch (PersistenceException ex) {
-            throw new DaoStoreException(ex);
-        }
-        return entity;
+    public T update(T entity) {
+        return entityManager.merge(entity);
     }
 }

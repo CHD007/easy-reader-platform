@@ -2,12 +2,15 @@ package com.easy.reader.persistance.dao;
 
 import com.easy.reader.persistance.entity.Word;
 
+import javax.ejb.Stateless;
+
 /**
  * DAO для слова
  * @author dchernyshov
  */
-public class WordDao extends GenericJpaDao<Word, Long> {
-    public WordDao() {
+@Stateless
+public class WordDaoBean extends GenericDaoBean<Word, Long> {
+    public WordDaoBean() {
         super(Word.class);
     }
 }
