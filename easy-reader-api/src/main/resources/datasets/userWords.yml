@@ -1,0 +1,17 @@
+UserWord:
+  - id: 1
+    wordFk: 4
+    bookWordFk: 1
+    userFk: 1
+  - id: 2
+    wordFk: 3
+    bookWordFk: 2
+    userFk: 1
+  - id: 3
+    wordFk: 2
+    bookWordFk: 3
+    userFk: 1
+  - id: 4
+    wordFk: 1
+    bookWordFk: 4
+    userFk: 1

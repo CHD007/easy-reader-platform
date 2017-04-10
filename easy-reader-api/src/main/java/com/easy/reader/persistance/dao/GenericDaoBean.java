@@ -23,7 +23,7 @@ public class GenericDaoBean<T extends BaseEntity, I extends Serializable> {
     private Class<T> persistentClass;    //сущность с которой работаем
 
     @PersistenceContext(unitName = "ReaderBackend")
-    private EntityManager entityManager; //менеджер транзаций
+    protected EntityManager entityManager; //менеджер транзаций
     
     public GenericDaoBean() {
     }

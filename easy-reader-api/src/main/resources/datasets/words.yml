@@ -1,0 +1,17 @@
+Word:
+  - id: 1
+    wordName: "say"
+    transcription: "say"
+    translation: "говорить"
+  - id: 2
+    wordName: "home"
+    transcription: "home"
+    translation: "дом"
+  - id: 3
+    wordName: "tower"
+    transcription: "tower"
+    translation: "башня"
+  - id: 4
+    wordName: "mouse"
+    transcription: "mouse"
+    translation: "мышь"
