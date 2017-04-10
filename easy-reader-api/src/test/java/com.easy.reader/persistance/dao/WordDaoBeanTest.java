@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -36,5 +38,18 @@ public class WordDaoBeanTest {
         word.setTranscription("fasdf");
         word.setTranslation("говорить");
         wordDao.save(word);
+    }
+
+    @Test
+    public void saveAllWordsTest() {
+        List<Word> words = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Word word = new Word();
+            word.setWordName("word " + i);
+            word.setTranslation("word transcription " + i);
+            word.setTranslation("word translation " + i);
+            words.add(word);
+        }
+        wordDao.saveAll(words);
     }
 }
