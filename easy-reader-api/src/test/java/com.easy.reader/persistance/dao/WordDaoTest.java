@@ -21,15 +21,15 @@ import java.util.List;
  */
 @RunWith(Arquillian.class)
 @UsingDataSet("datasets/words.yml")
-public class WordDaoBeanTest {
+public class WordDaoTest {
     @Inject
-    private WordDaoBean wordDao;
+    private WordDao wordDao;
     
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addClass(Word.class)
-                .addPackage(WordDaoBean.class.getPackage())
+                .addPackage(WordDao.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");
     }
@@ -77,10 +77,5 @@ public class WordDaoBeanTest {
     public void deleteWordTest() {
         wordDao.delete(wordDao.findById(2L));
         Assert.assertEquals(3, wordDao.findAll().size());
-    }
-    
-    @Test
-    public void getAllWordsForBookTest() {
-        
     }
 }

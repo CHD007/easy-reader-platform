@@ -9,8 +9,8 @@ import javax.ejb.Stateless;
  * @author dchernyshov
  */
 @Stateless
-public class WordDaoBean extends GenericDaoBean<Word, Long> {
-    public WordDaoBean() {
+public class WordDao extends GenericDao<Word, Long> {
+    public WordDao() {
         super(Word.class);
     }
 }

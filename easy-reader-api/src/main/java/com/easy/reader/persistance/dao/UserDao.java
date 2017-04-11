@@ -2,12 +2,15 @@ package com.easy.reader.persistance.dao;
 
 import com.easy.reader.persistance.entity.User;
 
+import javax.ejb.Stateless;
+
 /**
  * DAO для пользователей
  * @author dchernyshov
  */
-public class UserDaoBean extends GenericDaoBean<User, Long> {
-    public UserDaoBean() {
+@Stateless
+public class UserDao extends GenericDao<User, Long> {
+    public UserDao() {
         super(User.class);
     }
 }

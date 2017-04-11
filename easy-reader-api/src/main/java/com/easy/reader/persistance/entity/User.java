@@ -19,7 +19,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "userFk")
     private List<UserWord> userWords;
-
+    
     @OneToMany(mappedBy = "userFk")
-    private List<Book> books;
+    private List<BookWord> bookWords;
 }

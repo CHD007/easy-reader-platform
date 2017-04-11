@@ -2,12 +2,15 @@ package com.easy.reader.persistance.dao;
 
 import com.easy.reader.persistance.entity.Book;
 
+import javax.ejb.Stateless;
+
 /**
  * DAO для книги
  * @author dchernyshov
  */
-public class BookDaoBean extends GenericDaoBean<Book, Long> {
-    public BookDaoBean() {
+@Stateless
+public class BookDao extends GenericDao<Book, Long> {
+    public BookDao() {
         super(Book.class);
     }
 }

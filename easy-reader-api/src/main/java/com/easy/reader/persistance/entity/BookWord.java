@@ -11,7 +11,7 @@ import java.util.List;
  * Слово из книги. Имеет контекст из книги.
  * @author dchernyshov
  */
-@Entity
+@Entity(name = "BookWord")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class BookWord extends BaseEntity {
@@ -19,7 +19,6 @@ public class BookWord extends BaseEntity {
     private List<String> context = new ArrayList<>();
 
     @OneToOne
-    @JoinColumn(name = "id")
     private Word wordFk;
 
     @ManyToOne

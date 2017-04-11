@@ -2,8 +2,7 @@ package com.easy.reader.persistance.dao;
 
 import com.easy.reader.persistance.entity.BaseEntity;
 
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
@@ -17,18 +16,17 @@ import java.util.List;
  * сущностей реализуются в их DAO-объектах
  * @author dchernyshov
  */
-@Singleton
-@Startup
-public class GenericDaoBean<T extends BaseEntity, I extends Serializable> {
+@Stateless
+public class GenericDao<T extends BaseEntity, I extends Serializable> {
     private Class<T> persistentClass;    //сущность с которой работаем
 
     @PersistenceContext(unitName = "ReaderBackend")
     protected EntityManager entityManager; //менеджер транзаций
     
-    public GenericDaoBean() {
+    public GenericDao() {
     }
     
-    public GenericDaoBean(Class<T> persistentClass) {
+    public GenericDao(Class<T> persistentClass) {
         this.persistentClass = persistentClass;
     }
 
@@ -51,10 +49,9 @@ public class GenericDaoBean<T extends BaseEntity, I extends Serializable> {
      *
      * @return - коллекция объектов сущности
      */
-    @SuppressWarnings({"unchecked", "NonJREEmulationClassesInClientCode"})
     public List<T> findAll() {
         return entityManager
-                .createQuery("select x from " + getPersistentClass().getSimpleName() + " x")
+                .createQuery("select x from " + getPersistentClass().getSimpleName() + " x", persistentClass)
                 .getResultList();
     }
 

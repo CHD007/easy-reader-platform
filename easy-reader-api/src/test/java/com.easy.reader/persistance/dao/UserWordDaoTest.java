@@ -1,5 +1,6 @@
 package com.easy.reader.persistance.dao;
 
+import com.easy.reader.persistance.entity.UserWord;
 import com.easy.reader.persistance.entity.Word;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -15,27 +16,27 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
- * Тесты для WordBookDaoBean
+ * Тесты для UserBookDaoBean
  * @author dchernyshov
  */
 @RunWith(Arquillian.class)
-@UsingDataSet({"datasets/bookWords.yml", "datasets/books.yml", "datasets/words.yml", "datasets/users.yml"})
-public class BookWordDaoBeanTest {
+@UsingDataSet({"datasets/userWords.yml", "datasets/words.yml", "datasets/users.yml"})
+public class UserWordDaoTest {
     @Inject
-    private BookWordDaoBean bookWordDao;
+    private UserWordDao userWordDao;
     
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(Word.class.getPackage())
-                .addPackage(WordDaoBean.class.getPackage())
+                .addPackage(WordDao.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");
     }
     
     @Test
-    public void getAllWordsForBookTest() {
-        List<Word> allWordsForBook = bookWordDao.getAllWordsForBook(1L);
-        Assert.assertEquals(4, allWordsForBook.size());
+    public void findAllWordsByUserIdTest() {
+        List<UserWord> allWordsForUser = userWordDao.findAllWordByUserId(1L);
+        Assert.assertEquals(4, allWordsForUser.size());
     }
 }

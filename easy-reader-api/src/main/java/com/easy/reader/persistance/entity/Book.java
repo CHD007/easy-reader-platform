@@ -11,7 +11,7 @@ import java.util.List;
  * Сущность "Книга". Книга состоит из слов "BookWord"
  * @author dchernyshov
  */
-@Entity
+@Entity(name = "Book")
 @Data
 @EqualsAndHashCode(exclude = "bookWords", callSuper = true)
 public class Book extends BaseEntity {
