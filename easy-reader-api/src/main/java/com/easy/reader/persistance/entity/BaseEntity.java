@@ -3,8 +3,7 @@ package com.easy.reader.persistance.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 
 
@@ -13,5 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 public class BaseEntity implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 }
