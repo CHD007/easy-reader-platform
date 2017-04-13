@@ -17,11 +17,14 @@ public class UserWord extends BaseEntity {
     private Status status;
 
     @OneToOne
+    @JoinColumn(name = "wordFk")
     private Word wordFk;
 
     @OneToOne
+    @JoinColumn(name = "bookWordFk")
     private BookWord bookWordFk;
 
     @ManyToOne
+    @JoinColumn(name = "userFk")
     private User userFk;
 }

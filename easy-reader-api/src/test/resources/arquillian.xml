@@ -8,7 +8,7 @@
         <configuration>
             <property name="bindHttpPort">7070</property>
             <property name="resourcesXml">
-                resources/glassfish-resources.xml
+                src/test/resources/glassfish-resources.xml
             </property>
         </configuration>
     </container>

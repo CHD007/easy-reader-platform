@@ -6,6 +6,11 @@
         <jta-data-source>jdbc/EasyReaderDB</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
+        <class>com.easy.reader.persistance.entity.Book</class>
+        <class>com.easy.reader.persistance.entity.BookWord</class>
+        <class>com.easy.reader.persistance.entity.Word</class>
+        <class>com.easy.reader.persistance.entity.UserWord</class>
+        <class>com.easy.reader.persistance.entity.User</class>
         <properties>
             <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
             <property name="eclipselink.logging.logger" value="DefaultLogger"/>

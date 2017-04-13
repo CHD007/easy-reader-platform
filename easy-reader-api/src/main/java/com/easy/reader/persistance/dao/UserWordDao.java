@@ -17,7 +17,7 @@ public class UserWordDao extends GenericDao<UserWord, Long> {
     
     public List<UserWord> findAllWordByUserId(Long userId) {
         return entityManager
-                .createQuery("select uw from UserWord uw where uw.userFk = ?1", UserWord.class)
+                .createQuery("select uw from UserWord uw where uw.userFk.id = ?1", UserWord.class)
                 .setParameter(1, userId)
                 .getResultList();
     }

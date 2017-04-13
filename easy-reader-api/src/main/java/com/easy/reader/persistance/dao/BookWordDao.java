@@ -21,7 +21,7 @@ public class BookWordDao extends GenericDao<BookWord, Long> {
      * @return все слова указанной книги
      */
     public List<BookWord> findAllWordsByBookId(Long bookId) {
-        return entityManager.createQuery("select w from BookWord w where w.bookFk = ?1", BookWord.class)
+        return entityManager.createQuery("select w from BookWord w where w.bookFk.id = ?1", BookWord.class)
                 .setParameter(1, bookId)
                 .getResultList();
     }
