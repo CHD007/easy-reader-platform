@@ -13,20 +13,6 @@
  When distributing the software, include this License Header Notice in each
  file and include the License file at packager/legal/LICENSE.txt.
  -->
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
-             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
-             version="2.1">
-    <persistence-unit name="ReaderBackend" transaction-type="JTA">
-        <jta-data-source>jdbc/payaraEmbedded</jta-data-source>
-        <class>com.easy.reader.persistance.entity.Book</class>
-        <class>com.easy.reader.persistance.entity.BookWord</class>
-        <class>com.easy.reader.persistance.entity.Word</class>
-        <class>com.easy.reader.persistance.entity.UserWord</class>
-        <class>com.easy.reader.persistance.entity.User</class>
-        <properties>
-            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-        </properties>
-    </persistence-unit>
-</persistence>
+<p>
+    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+</p>
