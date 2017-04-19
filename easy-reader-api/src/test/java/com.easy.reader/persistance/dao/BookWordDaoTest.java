@@ -30,7 +30,7 @@ public class BookWordDaoTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(BookWord.class)
+                .addPackage(BookWord.class.getPackage())
                 .addPackage(BookWordDao.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");
@@ -38,6 +38,9 @@ public class BookWordDaoTest {
     
     @Test
     public void findAllWordsByBookIdTest() {
+//        BookWord bookWord = new BookWord();
+//        bookWordDao.save(bookWord);
+//        bookWordDao.findAll().forEach(System.out::println);
         List<BookWord> allWordsForBook = bookWordDao.findAllWordsByBookId(1L);
         Assert.assertEquals(4, allWordsForBook.size());
     }
