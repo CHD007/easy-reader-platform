@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -12,6 +13,7 @@ import java.util.List;
  * @author dchernyshov
  */
 @Entity
+@Table(name = "USER")
 @Data
 @EqualsAndHashCode(callSuper = true, exclude = {"userWords", "books"})
 public class User extends BaseEntity {

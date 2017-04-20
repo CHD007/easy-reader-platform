@@ -1,4 +1,4 @@
-BookWord:
+BOOK_WORD:
   - id: 1
     wordFk: 4
     bookFk: 1

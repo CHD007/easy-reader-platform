@@ -25,7 +25,7 @@ public class BookDaoTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Book.class)
+                .addPackage(Book.class.getPackage())
                 .addPackage(BookDao.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");

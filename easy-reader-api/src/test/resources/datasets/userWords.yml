@@ -1,4 +1,4 @@
-UserWord:
+USER_WORD:
   - id: 1
 #    status: "LEARNED"
     wordFk: 4

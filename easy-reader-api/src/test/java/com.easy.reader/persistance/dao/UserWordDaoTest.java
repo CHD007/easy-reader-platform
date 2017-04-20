@@ -1,9 +1,10 @@
 package com.easy.reader.persistance.dao;
 
 import com.easy.reader.persistance.entity.UserWord;
-import com.easy.reader.persistance.entity.Word;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.Cleanup;
+import org.jboss.arquillian.persistence.CleanupStrategy;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -20,7 +21,9 @@ import java.util.List;
  * @author dchernyshov
  */
 @RunWith(Arquillian.class)
-@UsingDataSet({"datasets/userWords.yml", "datasets/words.yml", "datasets/users.yml"})
+@Cleanup(strategy = CleanupStrategy.USED_TABLES_ONLY)
+@UsingDataSet({"datasets/books.yml", "datasets/words.yml", "datasets/users.yml", "datasets/bookWords.yml",
+        "datasets/userWords.yml"})
 public class UserWordDaoTest {
     @Inject
     private UserWordDao userWordDao;
@@ -28,7 +31,7 @@ public class UserWordDaoTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addPackage(Word.class.getPackage())
+                .addPackage(UserWord.class.getPackage())
                 .addPackage(WordDao.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");

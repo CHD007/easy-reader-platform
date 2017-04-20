@@ -3,6 +3,8 @@ package com.easy.reader.persistance.dao;
 import com.easy.reader.persistance.entity.BookWord;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.Cleanup;
+import org.jboss.arquillian.persistence.CleanupStrategy;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -19,7 +21,8 @@ import java.util.List;
  * @author dchernyshov
  */
 @RunWith(Arquillian.class)
-//@UsingDataSet({"datasets/bookWords.yml", "datasets/books.yml", "datasets/words.yml", "datasets/users.yml"})
+@Cleanup(strategy = CleanupStrategy.USED_TABLES_ONLY)
+@UsingDataSet({"datasets/books.yml", "datasets/words.yml", "datasets/users.yml", "datasets/bookWords.yml"})
 public class BookWordDaoTest {
     @Inject
     private BookWordDao bookWordDao;
@@ -29,13 +32,15 @@ public class BookWordDaoTest {
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(BookWord.class.getPackage())
                 .addPackage(BookWordDao.class.getPackage())
-                .addAsManifestResource("test-persistence.xml", "META-INF/persistence.xml")
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+                .addAsResource(EmptyAsset.INSTANCE, "beans.xml");
     }
     
     @Test
-    @UsingDataSet("datasets/bookWords.yml")
     public void findAllWordsByBookIdTest() {
+//        BookWord bookWord = new BookWord();
+//        bookWordDao.save(bookWord);
+//        bookWordDao.findAll().forEach(System.out::println);
         List<BookWord> allWordsForBook = bookWordDao.findAllWordsByBookId(1L);
         Assert.assertEquals(4, allWordsForBook.size());
     }

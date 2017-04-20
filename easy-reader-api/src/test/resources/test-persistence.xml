@@ -21,7 +21,13 @@
     <persistence-unit name="ReaderBackend" transaction-type="JTA">
         <jta-data-source>jdbc/payaraEmbedded</jta-data-source>
         <properties>
-            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <property name="eclipselink.logging.logger" value="DefaultLogger"/>
+            <property name="eclipselink.logging.file" value="db.log"/>
+            <property name="jdbc.persistence.logging" value="true"/>
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+            <property name="eclipselink.logging.level" value="INFO"/>
         </properties>
     </persistence-unit>
 </persistence>
