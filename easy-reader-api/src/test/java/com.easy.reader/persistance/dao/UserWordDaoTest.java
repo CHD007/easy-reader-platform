@@ -31,7 +31,7 @@ public class UserWordDaoTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(UserWord.class)
+                .addPackage(UserWord.class.getPackage())
                 .addPackage(WordDao.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");

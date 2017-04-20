@@ -1,6 +1,6 @@
 package com.easy.reader.persistance.dao;
 
-import com.easy.reader.persistance.entity.Word;
+import com.easy.reader.persistance.entity.*;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.ShouldMatchDataSet;
@@ -28,11 +28,12 @@ public class WordDaoTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Word.class)
-                .addPackage(WordDao.class.getPackage())
+                .addPackage(BookWord.class.getPackage())
+                .addPackage(BookWordDao.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");
     }
+    
     
     @Test
     public void saveWordTest() {
@@ -56,7 +57,7 @@ public class WordDaoTest {
         }
         wordDao.saveAll(words);
     }
-    
+
     @Test
     @ShouldMatchDataSet(value = "expected-words.yml", excludeColumns = { "id" })
     public void findAllWordsTest() {

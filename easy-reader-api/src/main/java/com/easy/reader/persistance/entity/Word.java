@@ -4,12 +4,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Сущность "Слово". Содержит само слово, перевод, транскрипцию
  * @author dchernyshov
  */
-@Entity(name = "Word")
+@Entity
+@Table(name = "WORD")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Word extends BaseEntity {

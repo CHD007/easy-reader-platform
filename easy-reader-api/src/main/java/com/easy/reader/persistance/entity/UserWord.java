@@ -11,7 +11,8 @@ import javax.persistence.*;
  * Сущность пользовательского слова.
  * @author dchernyshov
  */
-@Entity(name = "UserWord")
+@Entity
+@Table(name = "USER_WORD")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UserWord extends BaseEntity implements DataTransferable<UserWord, WordDto> {

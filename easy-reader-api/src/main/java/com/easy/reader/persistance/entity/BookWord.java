@@ -11,7 +11,8 @@ import java.util.List;
  * Слово из книги. Имеет контекст из книги.
  * @author dchernyshov
  */
-@Entity(name = "BookWord")
+@Entity
+@Table(name = "BOOK_WORD")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class BookWord extends BaseEntity {
