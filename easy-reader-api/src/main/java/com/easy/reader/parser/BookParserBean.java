@@ -6,14 +6,13 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,32 +22,35 @@ import java.util.Set;
 public class BookParserBean {
 
     private static final QName P_TAG = new QName("p");
-    private Attribute paragraph;
+    private StringBuilder chars;
 
     private Set<String> words = new HashSet<String>();
+    private List<String> splittedWords;
     private XMLInputFactory factory = XMLInputFactory.newInstance();
-
-    public Set<String> parse(File file) throws IOException, XMLStreamException {
-        FileInputStream in = new FileInputStream(file);
+    
+    public BookParserBean() {
+        chars = new StringBuilder();
+    }
+    
+    public Set<String> parse(InputStream in) throws IOException, XMLStreamException {
         XMLEventReader eventReader = factory.createXMLEventReader(in);
 
         while (eventReader.hasNext()) {
             XMLEvent xmlEvent = eventReader.nextEvent();
             switch (xmlEvent.getEventType()) {
-                case XMLStreamConstants.START_ELEMENT:
-                    processStartElement(xmlEvent.asStartElement());
+                case XMLStreamConstants.CHARACTERS:
+                    processParagraph(xmlEvent.asCharacters());
                     break;
             }
         }
         return words;
     }
 
-    private void processStartElement(StartElement element) {
-        if(element.getName().equals(P_TAG)) {
-            paragraph = element.getAttributeByName(P_TAG);
-            String paragraphValue = paragraph.getValue();
-            String[] split = paragraphValue.split(" ");
-            words.addAll(Arrays.asList(split));
+    private void processParagraph(Characters characters) {
+        chars.append(characters.getData());
+        splittedWords = Arrays.asList(chars.toString().split(" "));
+        for (String word : splittedWords) {
+            words.add(word);
         }
     }
 }
