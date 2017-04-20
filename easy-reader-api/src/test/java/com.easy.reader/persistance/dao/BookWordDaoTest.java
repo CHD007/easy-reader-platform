@@ -38,9 +38,6 @@ public class BookWordDaoTest {
     
     @Test
     public void findAllWordsByBookIdTest() {
-//        BookWord bookWord = new BookWord();
-//        bookWordDao.save(bookWord);
-//        bookWordDao.findAll().forEach(System.out::println);
         List<BookWord> allWordsForBook = bookWordDao.findAllWordsByBookId(1L);
         Assert.assertEquals(4, allWordsForBook.size());
     }
