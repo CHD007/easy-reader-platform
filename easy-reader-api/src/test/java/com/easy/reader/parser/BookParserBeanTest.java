@@ -15,7 +15,8 @@ import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -42,10 +43,12 @@ public class BookParserBeanTest {
     
     @Test
     public void testParse() {
+        String[] expectedWordsArray = {"the", "martin", "london", "home", "opened", "one", "door"};
         InputStream resource = getClass().getResourceAsStream("/xmlParserTest.xml");
         try {
             Set<String> words = bookParserBean.parse(resource);
-            Iterator<String> iterator = words.iterator();
+            Set<String> expectedWordsSet = new HashSet<>(Arrays.asList(expectedWordsArray));
+            Assert.assertEquals(expectedWordsSet, words);
         } catch (IOException ioException) {
             ioException.printStackTrace();
             Assert.fail();

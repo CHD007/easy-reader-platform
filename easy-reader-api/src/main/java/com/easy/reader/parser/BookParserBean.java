@@ -1,7 +1,6 @@
 package com.easy.reader.parser;
 
 import javax.ejb.Stateless;
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -14,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author dchernyshov
@@ -21,36 +21,43 @@ import java.util.Set;
 @Stateless
 public class BookParserBean {
 
-    private static final QName P_TAG = new QName("p");
-    private StringBuilder chars;
-
-    private Set<String> words = new HashSet<String>();
-    private List<String> splittedWords;
+    private Set<String> words;
     private XMLInputFactory factory = XMLInputFactory.newInstance();
     
     public BookParserBean() {
-        chars = new StringBuilder();
+        words = new HashSet<>();
     }
     
+    /**
+     * Парсит файл XML.
+     * @param in входной stream XML файла
+     * @return слова из книги
+     * @throws IOException
+     * @throws XMLStreamException
+     */
     public Set<String> parse(InputStream in) throws IOException, XMLStreamException {
         XMLEventReader eventReader = factory.createXMLEventReader(in);
 
         while (eventReader.hasNext()) {
             XMLEvent xmlEvent = eventReader.nextEvent();
-            switch (xmlEvent.getEventType()) {
-                case XMLStreamConstants.CHARACTERS:
-                    processParagraph(xmlEvent.asCharacters());
-                    break;
+            if (xmlEvent.getEventType() == XMLStreamConstants.CHARACTERS) {
+                processParagraph(xmlEvent.asCharacters());
             }
         }
         return words;
     }
-
+    
+    /**
+     * Парсит параграф. Записывает в words все слова из параграфа.
+     * @param characters
+     */
     private void processParagraph(Characters characters) {
+        StringBuilder chars = new StringBuilder();
         chars.append(characters.getData());
-        splittedWords = Arrays.asList(chars.toString().split(" "));
-        for (String word : splittedWords) {
-            words.add(word);
-        }
+        List<String> strings = Arrays.asList(chars.toString().split("\\P{L}+"));
+        words.addAll(strings.stream()
+                .filter(str -> !str.isEmpty())
+                .map(String::toLowerCase)
+                .collect(Collectors.toList()));
     }
 }
