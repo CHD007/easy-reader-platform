@@ -1,6 +1,7 @@
 package com.easy.reader.parser;
 
 import javax.ejb.Stateless;
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @Stateless
 public class BookParserBean {
-
+    
     private Set<String> words;
     private XMLInputFactory factory = XMLInputFactory.newInstance();
     
@@ -37,14 +38,31 @@ public class BookParserBean {
      */
     public Set<String> parse(InputStream in) throws IOException, XMLStreamException {
         XMLEventReader eventReader = factory.createXMLEventReader(in);
-
         while (eventReader.hasNext()) {
             XMLEvent xmlEvent = eventReader.nextEvent();
+            if (xmlEvent.isStartElement()) {
+                String namespaceURI  = xmlEvent.asStartElement().getName().getNamespaceURI();
+                QName bodyTag = new QName(namespaceURI, "body");
+                if (bodyTag.equals(xmlEvent.asStartElement().getName())) {
+                    parseBodyTag(xmlEvent, eventReader, bodyTag);
+                }
+            }
+        }
+        return words;
+    }
+    
+    /**
+     * Парсит тег body в fb2 документе.
+     * @throws IOException
+     * @throws XMLStreamException
+     */
+    private void parseBodyTag(XMLEvent xmlEvent, XMLEventReader eventReader, QName bodyTag) throws IOException, XMLStreamException {
+        while (!xmlEvent.isEndElement() || (xmlEvent.isEndElement() && !bodyTag.equals(xmlEvent.asEndElement().getName()))) {
+            xmlEvent = eventReader.nextEvent();
             if (xmlEvent.getEventType() == XMLStreamConstants.CHARACTERS) {
                 processParagraph(xmlEvent.asCharacters());
             }
         }
-        return words;
     }
     
     /**
