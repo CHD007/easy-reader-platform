@@ -15,7 +15,7 @@ import java.util.Set;
  * @author dchernyshov
  */
 public class BookParserTest {
-    BookParser bookParser;
+    private BookParser bookParser;
     
     @Before
     public void init() {
