@@ -51,7 +51,7 @@ public class GlosbeWebServiceClient {
             }
         }
         
-        wordTranslations.delete(wordTranslations.toString().length()-2, wordTranslations.toString().length());
+        wordTranslations.delete(wordTranslations.length()-2, wordTranslations.length());
         
         word.setWordName(wordToTranslate);
         word.setTranslation(wordTranslations.toString());
