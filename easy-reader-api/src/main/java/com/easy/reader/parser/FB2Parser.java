@@ -1,6 +1,5 @@
 package com.easy.reader.parser;
 
-import javax.ejb.Stateless;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -17,17 +16,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * FB2 parser
  * @author dchernyshov
  */
-@Stateless
-public class BookParserBean {
-    
-    private Set<String> words;
+public class FB2Parser implements Parser {
+    private Set<String> words = new HashSet<>();
     private XMLInputFactory factory = XMLInputFactory.newInstance();
-    
-    public BookParserBean() {
-        words = new HashSet<>();
-    }
     
     /**
      * Парсит файл XML.
@@ -36,17 +30,22 @@ public class BookParserBean {
      * @throws IOException
      * @throws XMLStreamException
      */
-    public Set<String> parse(InputStream in) throws IOException, XMLStreamException {
-        XMLEventReader eventReader = factory.createXMLEventReader(in);
-        while (eventReader.hasNext()) {
-            XMLEvent xmlEvent = eventReader.nextEvent();
-            if (xmlEvent.isStartElement()) {
-                String namespaceURI  = xmlEvent.asStartElement().getName().getNamespaceURI();
-                QName bodyTag = new QName(namespaceURI, "body");
-                if (bodyTag.equals(xmlEvent.asStartElement().getName())) {
-                    parseBodyTag(xmlEvent, eventReader, bodyTag);
+    @Override
+    public Set<String> parse(InputStream in) throws IOException {
+        try {
+            XMLEventReader eventReader = factory.createXMLEventReader(in);
+            while (eventReader.hasNext()) {
+                XMLEvent xmlEvent = eventReader.nextEvent();
+                if (xmlEvent.isStartElement()) {
+                    String namespaceURI = xmlEvent.asStartElement().getName().getNamespaceURI();
+                    QName bodyTag = new QName(namespaceURI, "body");
+                    if (bodyTag.equals(xmlEvent.asStartElement().getName())) {
+                        parseBodyTag(xmlEvent, eventReader, bodyTag);
+                    }
                 }
             }
+        } catch (XMLStreamException xmlStreamException) {
+            xmlStreamException.printStackTrace();
         }
         return words;
     }
