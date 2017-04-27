@@ -42,4 +42,22 @@ public class UserWordDaoTest {
         List<UserWord> allWordsForUser = userWordDao.findAllWordByUserId(1L);
         Assert.assertEquals(4, allWordsForUser.size());
     }
+    
+    @Test
+    public void findAllUserWordsByBookIdTest() {
+        List<UserWord> allWordsForUser = userWordDao.findAllUserWordsByBookId(1L, 1L);
+        Assert.assertEquals(4, allWordsForUser.size());
+    }
+    
+    @Test
+    public void findAllLearnedUserWordsByUserIdTest() {
+        List<UserWord> allWordsForUser = userWordDao.findAllLeanedUserWordsByUserId(1L);
+        Assert.assertEquals(3, allWordsForUser.size());
+    }
+    
+    @Test
+    public void findAllUserWordsInProgressByUserIdTest() {
+        List<UserWord> allWordsForUser = userWordDao.findAllUserWordsInProgressByUserId(1L);
+        Assert.assertEquals(1, allWordsForUser.size());
+    }
 }

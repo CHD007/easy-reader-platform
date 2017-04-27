@@ -25,4 +25,13 @@ public class BookWordDao extends GenericDao<BookWord, Long> {
                 .setParameter(1, bookId)
                 .getResultList();
     }
+    
+    public List<BookWord> findAllWordsByBookIdAndUserId(Long bookId, Long userId) {
+        return entityManager.createQuery("select w from " + getPersistentClass().getSimpleName() +
+                " w where w.bookFk.id = ?1 and w.userFk.id = ?2", BookWord.class)
+                    .setParameter(1, bookId)
+                    .setParameter(2, userId)
+                    .getResultList();
+    }
+    
 }
