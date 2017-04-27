@@ -42,4 +42,10 @@ public class BookWordDaoTest {
         List<BookWord> allWordsForBook = bookWordDao.findAllWordsByBookId(1L);
         Assert.assertEquals(4, allWordsForBook.size());
     }
+    
+    @Test
+    public void findAllWordsByBookIdAndUserIdTest() {
+        List<BookWord> allWordsForBook = bookWordDao.findAllWordsByBookIdAndUserId(1L, 1L);
+        Assert.assertEquals(4, allWordsForBook.size());
+    }
 }

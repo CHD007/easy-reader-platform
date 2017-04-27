@@ -1,21 +1,21 @@
 USER_WORD:
   - id: 1
-#    status: "LEARNED"
+    status: "LEARNED"
     wordFk: 4
     bookWordFk: 1
     userFk: 1
   - id: 2
-#    status: "LEARNED"
+    status: "IN_PROGRESS"
     wordFk: 3
     bookWordFk: 2
     userFk: 1
   - id: 3
     wordFk: 2
-#    status: "LEARNED"
+    status: "LEARNED"
     bookWordFk: 3
     userFk: 1
   - id: 4
-#    status: "LEARNED"
+    status: "LEARNED"
     wordFk: 1
     bookWordFk: 4
     userFk: 1
