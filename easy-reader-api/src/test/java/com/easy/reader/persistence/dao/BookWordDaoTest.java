@@ -1,5 +1,6 @@
-package com.easy.reader.persistance.dao;
+package com.easy.reader.persistence.dao;
 
+import com.easy.reader.persistance.dao.BookWordDao;
 import com.easy.reader.persistance.entity.BookWord;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -38,9 +39,6 @@ public class BookWordDaoTest {
     
     @Test
     public void findAllWordsByBookIdTest() {
-//        BookWord bookWord = new BookWord();
-//        bookWordDao.save(bookWord);
-//        bookWordDao.findAll().forEach(System.out::println);
         List<BookWord> allWordsForBook = bookWordDao.findAllWordsByBookId(1L);
         Assert.assertEquals(4, allWordsForBook.size());
     }

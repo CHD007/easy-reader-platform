@@ -1,5 +1,7 @@
-package com.easy.reader.persistance.dao;
+package com.easy.reader.persistence.dao;
 
+import com.easy.reader.persistance.dao.UserWordDao;
+import com.easy.reader.persistance.dao.WordDao;
 import com.easy.reader.persistance.entity.UserWord;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
