@@ -40,10 +40,14 @@
   }
 
   @media (min-width: 801px) {
-     .header-menu-button{
-       display: none;
-     }
-  }
+    .header-menu-button {
+      display: none;
+    }
 
+    dropdown-list {
+      display: none;
+    }
+
+  }
 
 }
