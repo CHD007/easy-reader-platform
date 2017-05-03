@@ -1,5 +1,7 @@
 package com.easy.reader.parser;
 
+import org.apache.log4j.Logger;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
  * @author dchernyshov
  */
 public class FB2Parser implements Parser {
+    private static final Logger LOGGER = Logger.getLogger(FB2Parser.class);
     private Set<String> words = new HashSet<>();
     private XMLInputFactory factory = XMLInputFactory.newInstance();
     
@@ -45,7 +48,7 @@ public class FB2Parser implements Parser {
                 }
             }
         } catch (XMLStreamException xmlStreamException) {
-            xmlStreamException.printStackTrace();
+            LOGGER.error("Error while parsing book", xmlStreamException);
         }
         return words;
     }

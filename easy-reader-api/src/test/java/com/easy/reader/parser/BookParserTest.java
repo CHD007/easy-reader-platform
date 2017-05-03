@@ -1,5 +1,6 @@
 package com.easy.reader.parser;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import java.util.Set;
  * @author dchernyshov
  */
 public class BookParserTest {
+    private static final Logger LOGGER = Logger.getLogger(BookParser.class);
     private BookParser bookParser;
     
     @Before
@@ -31,7 +33,7 @@ public class BookParserTest {
             Set<String> expectedWordsSet = new HashSet<>(Arrays.asList(expectedWordsArray));
             Assert.assertEquals(expectedWordsSet, words);
         } catch (IOException exception) {
-            exception.printStackTrace();
+            LOGGER.error("Error while parsing book", exception);
             Assert.fail();
         }
     }
