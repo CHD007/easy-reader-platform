@@ -1,14 +1,18 @@
 package com.easy.reader.translator;
 
 import com.easy.reader.persistance.entity.Word;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Web service client for word's translation.
@@ -16,6 +20,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 public class GlosbeWebServiceClient {
+    private static final Logger LOGGER = Logger.getLogger(GlosbeWebServiceClient.class);
     private static final int MAX_TRANSLATIONS = 5;
     private static final String BASE_URL = "https://glosbe.com/gapi/translate";
     
@@ -37,24 +42,20 @@ public class GlosbeWebServiceClient {
      */
     public Word getWordWithTranslation(String wordToTranslate) {
         Word word = new Word();
-    
-        JSONObject jsonObject = new JSONObject(getTranslation(wordToTranslate));
-        JSONArray jsonArray = jsonObject.getJSONArray("tuc");
-        StringBuilder wordTranslations = new StringBuilder();
-    
-        for (int i = 0; i < jsonArray.length() && i < MAX_TRANSLATIONS; i++) {
-            JSONObject jsonTranslation = jsonArray.getJSONObject(i);
-            
-            if (jsonTranslation.has("phrase")) {
-                wordTranslations.append((String) jsonTranslation.getJSONObject("phrase").get("text"));
-                wordTranslations.append(", ");
-            }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode tuc = mapper.readTree(getTranslation(wordToTranslate)).path("tuc");
+            String translations = StreamSupport.stream(tuc.spliterator(), false)
+                    .map(e -> e.path("phrase").path("text").asText())
+                    .filter(translation -> !"".equals(translation))
+                    .limit(MAX_TRANSLATIONS)
+                    .collect(Collectors.joining(", "));
+            word.setTranslation(translations);
+        } catch (IOException e) {
+            LOGGER.error("Error while parsing word's translation", e);
         }
-        
-        wordTranslations.delete(wordTranslations.length()-2, wordTranslations.length());
-        
-        word.setWordName(wordToTranslate);
-        word.setTranslation(wordTranslations.toString());
+
         return word;
     }
 }
