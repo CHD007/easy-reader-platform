@@ -1,13 +1,38 @@
 <main>
- <app-header></app-header>
-  <section>
+  <app-header></app-header>
+  <section id="main">
     <left-menu></left-menu>
     <article>
       <header class="article-header">
         <h1 class="article-title-text">What's that / Short Overview</h1>
       </header>
-      <div class="article-title"></div>
-      <div class="context-box"></div>
+      <div class="article-title">
+        <p class="article-pre-title-text">Short project overview and description</p>
+      </div>
+      <article class="context-box">
+        <p>Study English by reading what you really like. In original without using any vocabulary.</p>
+        <section class="section">
+          <h1>How this works</h1>
+          <div id="overview-case">
+            <div id="load-section" class="flex-section">
+              <div class="image-wrapper"><img class="overview-book-image" src="img/download-book.ico"/></div>
+              <div><span>You load your favourite book or any text</span></div>
+              <div id="formats"><span>Possible Formats: <span class="format-label">txt</span>, <span
+                class="format-label">doc</span>, <span class="format-label">fb2</span></span></div>
+            </div>
+            <div class="image-wrapper"><img class="arrow-image" src="img/arrow-right.svg"/></div>
+            <div id="process-section" class="flex-section">
+              <div class="image-wrapper"><img class="overview-book-image" src="img/loading.gif"/></div>
+              <span>Easy Ready read your book</span>
+            </div>
+            <div class="image-wrapper"><img class="arrow-image" src="img/arrow-right.svg"/></div>
+            <div id="result-section" class="flex-section">
+              <div class="image-wrapper"><img class="overview-book-image" src="img/book-icon.svg"/></div>
+              <span>You have your words with translation and ready to study</span>
+            </div>
+          </div>
+        </section>
+      </article>
     </article>
   </section>
 </main>
