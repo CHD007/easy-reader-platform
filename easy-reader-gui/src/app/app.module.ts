@@ -12,6 +12,7 @@ import {HeaderComponent} from './home/header/header.component';
 import {LeftMenu} from './home/left-menu/leftmenu.component';
 import {DropdownComponent} from './home/header/dropdown/dropdown.component';
 import {OverviewComponent} from './home/overview/overview.component';
+import {HowToComponent} from "./home/howtostart/howto.component";
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import {OverviewComponent} from './home/overview/overview.component';
     AppComponent,
     OverviewComponent,
     DropdownComponent,
+    HowToComponent,
     LeftMenu,
     HomeComponent,
     HeaderComponent

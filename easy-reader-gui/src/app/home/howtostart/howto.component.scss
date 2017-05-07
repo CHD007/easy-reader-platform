@@ -1,0 +1,98 @@
+@import "../../../style/common";
+
+:host {
+
+  //component should be 100%
+  width: 100%;
+
+  //box with all component content
+  article.main-box {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.24);
+  }
+
+  article {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background: #F3F3F5;
+    flex: 1 1;
+    order: 1;
+
+    //header of article
+    .article-header {
+      padding: 68px 48px 32px 48px;
+      background: linear-gradient(145deg, darken(lightcoral, 10%), lighten(lightcoral, 5%));
+      display: flex;
+      flex: 0 0 90px;
+    }
+
+    //title of article
+    .article-title {
+      display: flex;
+      flex: 0 0 100px;
+      background: rgba(236, 239, 241, 0.24);
+      border-bottom: 1px solid #ECEFF1;
+      box-sizing: border-box;
+      font-size: 18px;
+      font-weight: 200;
+      padding: 32px 48px;
+      min-height: 97px;
+    }
+
+    .article-title-text {
+      font-size: 2em;
+      text-transform: uppercase;
+      color: white;
+      font-weight: 400;
+    }
+
+    //child content box with main content
+    .context-box {
+      max-width: 1300px;
+      padding: 30px 40px 60px;
+
+      background: white;
+      min-width: 200px;
+      display: flex;
+      overflow: auto;
+      flex: 1 1 100%;
+
+      p {
+        font-size: 16px;
+        margin: 0 0 24px 0;
+        font-weight: 400;
+        line-height: 28px;
+        padding: 0;
+        color: $content-color;
+      }
+
+      h1 {
+        font-weight: 500;
+        color: $content-color;
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 30px;
+      }
+
+      span {
+        line-height: 28px;
+        color: $content-color;
+      }
+
+    }
+  }
+
+  @media (max-width: 800px) {
+
+    .our-goals.flex-column-goals {
+      padding: 0;
+    }
+
+    article.main-box {
+      margin-left: 0;
+    }
+
+  }
+
+}
