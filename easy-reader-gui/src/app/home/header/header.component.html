@@ -1,6 +1,8 @@
 <header>
-  <nav>
-    <button class="header-menu-button" (click)="changeDropdownState()">
+  <nav class="flex-header">
+    <div class="image-wrapper"><img src="img/sowushka-logo.png"/> <span id="logo-text">Easy Reader</span></div>
+    <button class="header-menu-button desktop"><span>Get Started</span></button>
+    <button class="header-menu-button mobile" (click)="changeDropdownState()">
       Site Menu<span class="drop-down-icon"></span>
     </button>
   </nav>
