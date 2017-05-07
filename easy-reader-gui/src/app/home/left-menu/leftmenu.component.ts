@@ -7,12 +7,19 @@ import {Component} from '@angular/core';
 })
 export class LeftMenu {
 
-  private isAboutActive: boolean = false;
+  private isAboutActive: boolean = true;
+  private toogledLink: number = 1;
 
 
   public changeAbout(): void {
     this.isAboutActive = !this.isAboutActive;
-    console.log(this.isAboutActive);
   }
 
+  public toogleLink(value:number){
+    this.toogledLink = value;
+  }
+
+
 }
+
+

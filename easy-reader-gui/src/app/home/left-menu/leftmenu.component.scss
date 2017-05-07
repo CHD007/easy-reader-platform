@@ -48,6 +48,11 @@
     }
   }
 
+  .active{
+    background: rgba(0, 0, 0, 0.08);
+    color: lighten(red,5%);
+  }
+
 
   .main-selected > a {
     z-index: 1;
