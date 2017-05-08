@@ -1,19 +1,23 @@
 :host {
 
-  nav{
+  nav {
     justify-content: space-between;
     align-items: center;
     display: flex;
     flex-flow: row;
   }
 
-
   .image-wrapper {
+    cursor: pointer;
+    padding-right: 16px;
+    background-color: transparent;
     align-items: center;
     display: flex;
+    transition: background-color .3s;
+
     img {
       width: 65px;
-      height: 60px;
+      height: 64px;
     }
 
     #logo-text {
@@ -22,8 +26,11 @@
       font-weight: 300;
       border-bottom: 1px white solid;
     }
-  }
 
+    &:hover, &:focus {
+      background-color: transparentize(white, 0.8);
+    }
+  }
 
   .header-menu-button {
     width: 128px;
@@ -36,15 +43,12 @@
     background-color: transparent;
     font-size: 16px;
     font-weight: 400;
-    font-family: "Roboto", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     transition: background-color .3s;
     text-transform: uppercase;
 
     &:hover, &:focus {
       background-color: transparentize(white, 0.8);
     }
-
-
 
   }
 
@@ -71,11 +75,10 @@
   }
 
   @media (max-width: 801px) {
-    .header-menu-button.desktop{
+    .header-menu-button.desktop {
       display: none;
     }
   }
-
 
   //@media (min-width: 801px) {
   //  .header-menu-button .mobile {
