@@ -5,12 +5,10 @@ import com.easy.reader.persistance.dao.UserWordDao;
 import com.easy.reader.persistance.dao.WordDao;
 import com.easy.reader.persistance.dto.WordDto;
 import com.easy.reader.persistance.entity.UserWord;
-import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.Cleanup;
 import org.jboss.arquillian.persistence.CleanupStrategy;
-import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -22,12 +20,12 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
- * Тесты для сервиса получения dto слов.
+ * Тест для сервиса получения dto слов.
  * @author dchernyshov
  */
 @RunWith(Arquillian.class)
-public class ServiceTest {
-    private static final Logger LOGGER = Logger.getLogger(ServiceTest.class);
+@Cleanup(strategy = CleanupStrategy.USED_TABLES_ONLY)
+public class ServicePostConstructMethodTest {
     @Inject
     private Service service;
     @Inject
@@ -45,11 +43,8 @@ public class ServiceTest {
     }
     
     @Test
-    @UsingDataSet({"datasets/books.yml", "datasets/words.yml", "datasets/users.yml", "datasets/bookWords.yml",
-            "datasets/userWords.yml"})
-    @Cleanup(strategy = CleanupStrategy.USED_TABLES_ONLY)
-    public void findAllWordsByUserIdTest() {
-        List<WordDto> allWordsForUser = service.getAllWords();
-        Assert.assertEquals(4, allWordsForUser.size());
+    public void populateDatabaseTest() {
+        List<WordDto> allWords = service.getAllWords();
+        Assert.assertEquals(10, allWords.size());
     }
 }
