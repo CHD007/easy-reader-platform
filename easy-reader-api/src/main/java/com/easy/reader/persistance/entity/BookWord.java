@@ -1,7 +1,9 @@
 package com.easy.reader.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.List;
 @Table(name = "BOOK_WORD")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BookWord extends BaseEntity {
     @ElementCollection
     private List<String> context = new ArrayList<>();

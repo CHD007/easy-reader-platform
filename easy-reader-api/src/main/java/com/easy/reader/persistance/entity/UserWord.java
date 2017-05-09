@@ -2,8 +2,10 @@ package com.easy.reader.persistance.entity;
 
 import com.easy.reader.persistance.dto.DataTransferable;
 import com.easy.reader.persistance.dto.WordDto;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -15,6 +17,7 @@ import javax.persistence.*;
 @Table(name = "USER_WORD")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class UserWord extends BaseEntity implements DataTransferable<UserWord, WordDto> {
     @Enumerated(EnumType.STRING)
     private Status status;
