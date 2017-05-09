@@ -4,15 +4,16 @@ import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
+import {HomeComponent} from './components/home.component';
 import {routing} from './app.routing';
 
 import {removeNgStyles, createNewHosts} from '@angularclass/hmr';
-import {HeaderComponent} from './home/header/header.component';
-import {LeftMenu} from './home/left-menu/leftmenu.component';
-import {DropdownComponent} from './home/header/dropdown/dropdown.component';
-import {OverviewComponent} from './home/overview/overview.component';
-import {HowToComponent} from "./home/howtostart/howto.component";
+import {HeaderComponent} from './components/header/header.component';
+import {LeftMenu} from './components/left-menu/leftmenu.component';
+import {DropdownComponent} from './components/header/dropdown/dropdown.component';
+import {OverviewComponent} from './components/overview/overview.component';
+import {HowToComponent} from "./components/howtostart/howto.component";
+import {BookLibraryComponent} from "./components/book-upload/booklibrary.component";
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import {HowToComponent} from "./home/howtostart/howto.component";
     OverviewComponent,
     DropdownComponent,
     HowToComponent,
+    BookLibraryComponent,
     LeftMenu,
     HomeComponent,
     HeaderComponent
@@ -51,7 +53,7 @@ export class AppModule {
   }
 
   hmrAfterDestroy(store) {
-    // display new elements
+    // display newWords elements
     store.disposeOldHosts();
     delete store.disposeOldHosts;
   }
