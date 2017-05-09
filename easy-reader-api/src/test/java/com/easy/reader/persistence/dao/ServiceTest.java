@@ -1,11 +1,9 @@
 package com.easy.reader.persistence.dao;
 
 import com.easy.reader.persistance.dao.Service;
-import com.easy.reader.persistance.dao.UserWordDao;
 import com.easy.reader.persistance.dao.WordDao;
 import com.easy.reader.persistance.dto.WordDto;
 import com.easy.reader.persistance.entity.UserWord;
-import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.Cleanup;
@@ -26,12 +24,12 @@ import java.util.List;
  * @author dchernyshov
  */
 @RunWith(Arquillian.class)
+@Cleanup(strategy = CleanupStrategy.USED_TABLES_ONLY)
+@UsingDataSet({"datasets/books.yml", "datasets/words.yml", "datasets/users.yml", "datasets/bookWords.yml",
+        "datasets/userWords.yml"})
 public class ServiceTest {
-    private static final Logger LOGGER = Logger.getLogger(ServiceTest.class);
     @Inject
     private Service service;
-    @Inject
-    private UserWordDao userWordDao;
     
     @Deployment
     public static JavaArchive createDeployment() {
@@ -45,9 +43,6 @@ public class ServiceTest {
     }
     
     @Test
-    @UsingDataSet({"datasets/books.yml", "datasets/words.yml", "datasets/users.yml", "datasets/bookWords.yml",
-            "datasets/userWords.yml"})
-    @Cleanup(strategy = CleanupStrategy.USED_TABLES_ONLY)
     public void findAllWordsByUserIdTest() {
         List<WordDto> allWordsForUser = service.getAllWords();
         Assert.assertEquals(4, allWordsForUser.size());

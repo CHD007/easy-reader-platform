@@ -5,6 +5,7 @@ import com.easy.reader.persistance.dao.UserWordDao;
 import com.easy.reader.persistance.dao.WordDao;
 import com.easy.reader.persistance.dto.WordDto;
 import com.easy.reader.persistance.entity.UserWord;
+import com.easy.reader.persistance.entity.Word;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.Cleanup;
@@ -30,6 +31,8 @@ public class ServicePostConstructMethodTest {
     private Service service;
     @Inject
     private UserWordDao userWordDao;
+    @Inject
+    private WordDao wordDao;
     
     @Deployment
     public static JavaArchive createDeployment() {
@@ -46,5 +49,9 @@ public class ServicePostConstructMethodTest {
     public void populateDatabaseTest() {
         List<WordDto> allWords = service.getAllWords();
         Assert.assertEquals(10, allWords.size());
+        List<UserWord> all = userWordDao.findAll();
+        all.forEach(word -> userWordDao.delete(word));
+        List<Word> all1 = wordDao.findAll();
+        all1.forEach(word -> wordDao.delete(word));
     }
 }

@@ -11,6 +11,9 @@ import java.util.Set;
 public class BookParser {
     private Parser parser;
     
+    public BookParser() {
+    }
+    
     public BookParser(Parser parser) {
         this.parser = parser;
     }
