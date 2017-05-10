@@ -1,5 +1,7 @@
 package com.easy.reader.parser;
 
+import lombok.NoArgsConstructor;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
@@ -8,11 +10,9 @@ import java.util.Set;
  * Парсер книги.
  * @author dchernyshov
  */
+@NoArgsConstructor
 public class BookParser {
     private Parser parser;
-    
-    public BookParser() {
-    }
     
     public BookParser(Parser parser) {
         this.parser = parser;
