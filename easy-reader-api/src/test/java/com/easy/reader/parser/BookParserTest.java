@@ -16,7 +16,7 @@ import java.util.Set;
  * @author dchernyshov
  */
 public class BookParserTest {
-    private static final Logger LOGGER = Logger.getLogger(BookParser.class);
+    private static final Logger LOGGER = Logger.getLogger(BookParserTest.class);
     private BookParser bookParser;
     
     @Before

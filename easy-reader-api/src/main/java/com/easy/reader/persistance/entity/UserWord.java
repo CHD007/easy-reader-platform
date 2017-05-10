@@ -38,7 +38,11 @@ public class UserWord extends BaseEntity implements DataTransferable<UserWord, W
         wordDto.setTranslation(userWord.getWordFk().getTranslation());
         wordDto.setTranscription(userWord.getWordFk().getTranscription());
         wordDto.setStatus(userWord.getStatus());
-        wordDto.setContext(userWord.getBookWordFk().getContext());
+        if (userWord.getBookWordFk() != null) {
+            wordDto.setContext(userWord.getBookWordFk().getContext());
+        } else {
+            wordDto.setContext(null);
+        }
         return wordDto;
     }
 }

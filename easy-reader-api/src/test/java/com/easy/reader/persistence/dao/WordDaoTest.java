@@ -81,4 +81,10 @@ public class WordDaoTest {
         wordDao.delete(wordDao.findById(2L));
         Assert.assertEquals(3, wordDao.findAll().size());
     }
+
+    @Test
+    public void isWordExistTest() {
+        Assert.assertEquals(true, wordDao.findWordByName("say").isPresent());
+        Assert.assertEquals(false, wordDao.findWordByName("sun").isPresent());
+    }
 }

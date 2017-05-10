@@ -8,6 +8,7 @@ import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -35,5 +36,10 @@ public class BookDaoTest {
     @Test
     public void findAllBooks() {
         bookDao.findAll();
+    }
+    
+    @Test
+    public void findBookByNameTest() {
+        Assert.assertEquals(true, bookDao.findBookByName("Head First").isPresent());
     }
 }
