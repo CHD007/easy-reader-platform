@@ -4,9 +4,11 @@ import com.easy.reader.api.ApplicationConfiguration;
 import com.easy.reader.parser.BookParser;
 import com.easy.reader.persistance.dao.BookDao;
 import com.easy.reader.persistance.entity.Book;
-import org.apache.log4j.Logger;
+import com.easy.reader.persistance.entity.BookWord;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.Cleanup;
+import org.jboss.arquillian.persistence.CleanupStrategy;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -20,9 +22,12 @@ import org.junit.runner.RunWith;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Upload file test
@@ -30,12 +35,10 @@ import java.net.URL;
  */
 @RunWith(Arquillian.class)
 public class BookServiceTest {
-    private static final Logger LOGGER = Logger.getLogger(BookServiceTest.class);
-    
     private static WebTarget target;
     @ArquillianResource
     private URL base;
-    
+
     @Deployment
     public static WebArchive createDeployment() {
         WebArchive webArchive = ShrinkWrap.create(WebArchive.class)
@@ -68,6 +71,17 @@ public class BookServiceTest {
     @Test
     @UsingDataSet("books.yml")
     public void testGetBooks() {
-        target.request().get();
+        Response response = target.request().get();
+        List<Book> books = response.readEntity(new GenericType<List<Book>>() {});
+        Assert.assertEquals(1, books.size());
+    }
+
+    @Test
+    @Cleanup(strategy = CleanupStrategy.USED_TABLES_ONLY)
+    @UsingDataSet({"datasets/books.yml", "datasets/words.yml", "datasets/users.yml", "datasets/bookWords.yml"})
+    public void testGetBookWordsForBook() {
+        Response response = target.path("1/bookWords").request().get();
+        List<BookWord> bookWords = response.readEntity(new GenericType<List<BookWord>>() {});
+        Assert.assertEquals(4, bookWords.size());
     }
 }
