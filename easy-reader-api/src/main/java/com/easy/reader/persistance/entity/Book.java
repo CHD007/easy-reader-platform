@@ -3,6 +3,7 @@ package com.easy.reader.persistance.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Entity;
@@ -18,8 +19,8 @@ import java.util.List;
 @Table(name = "BOOK")
 @Data
 @EqualsAndHashCode(exclude = "bookWords", callSuper = true)
-@ToString(exclude = "bookWords")
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@ToString(callSuper = true, exclude = "bookWords")
+@NoArgsConstructor
 public class Book extends BaseEntity {
     private String bookName;
 

@@ -44,6 +44,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+
         <!-- JSON Converter for REST and etc -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

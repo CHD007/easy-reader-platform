@@ -43,7 +43,7 @@ public class BookService {
     public Book getBook(@PathParam("bookId") Long id) {
         return bookDao.findById(id);
     }
-    
+
     @GET
     @Path("/{bookId}/bookWords")
     @Produces(MediaType.APPLICATION_JSON)
@@ -65,7 +65,7 @@ public class BookService {
                 Word word = new Word();
                 word.setWordName("word " + i);
                 word.setTranslation("transcription " + i);
-                word.setTranslation("перевод " + i);
+                word.setTranslation("translation " + i);
                 wordDao.save(word);
                 BookWord bookWord = new BookWord();
                 bookWord.setBookFk(book);
