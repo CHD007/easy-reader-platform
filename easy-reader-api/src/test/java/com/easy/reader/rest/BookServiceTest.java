@@ -80,7 +80,7 @@ public class BookServiceTest {
     @Cleanup(strategy = CleanupStrategy.USED_TABLES_ONLY)
     @UsingDataSet({"datasets/books.yml", "datasets/words.yml", "datasets/users.yml", "datasets/bookWords.yml"})
     public void testGetBookWordsForBook() {
-        Response response = target.path("1/bookWords").request().get();
+        Response response = target.path("1/book_words").request().get();
         List<BookWord> bookWords = response.readEntity(new GenericType<List<BookWord>>() {});
         Assert.assertEquals(4, bookWords.size());
     }

@@ -45,7 +45,7 @@ public class BookService {
     }
 
     @GET
-    @Path("/{bookId}/bookWords")
+    @Path("/{bookId}/book_words")
     @Produces(MediaType.APPLICATION_JSON)
     public List<BookWord> getBookWords(@PathParam("bookId") Long bookId) {
         return bookWordDao.findAllWordsByBookId(bookId);
