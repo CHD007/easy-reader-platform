@@ -2,10 +2,15 @@ package com.easy.reader.persistance.entity;
 
 import com.easy.reader.persistance.dto.DataTransferable;
 import com.easy.reader.persistance.dto.WordDto;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Сущность пользовательского слова.
@@ -15,6 +20,8 @@ import javax.persistence.*;
 @Table(name = "USER_WORD")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class UserWord extends BaseEntity implements DataTransferable<UserWord, WordDto> {
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -29,6 +36,7 @@ public class UserWord extends BaseEntity implements DataTransferable<UserWord, W
 
     @ManyToOne
     @JoinColumn(name = "userFk")
+    @XmlInverseReference(mappedBy = "userWords")
     private User userFk;
     
     @Override
