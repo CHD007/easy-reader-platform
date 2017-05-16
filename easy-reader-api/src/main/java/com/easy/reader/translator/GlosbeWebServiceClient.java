@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 
-import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -18,7 +17,6 @@ import java.util.stream.StreamSupport;
  * Web service client for word's translation.
  * @author dchernyshov
  */
-@Stateless
 public class GlosbeWebServiceClient {
     private static final Logger LOGGER = Logger.getLogger(GlosbeWebServiceClient.class);
     private static final int MAX_TRANSLATIONS = 5;

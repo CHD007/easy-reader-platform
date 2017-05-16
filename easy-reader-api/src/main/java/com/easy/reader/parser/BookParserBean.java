@@ -31,15 +31,13 @@ public class BookParserBean {
     private BookDao bookDao;
     @Inject
     private BookWordDao bookWordDao;
-    @Inject
-    private GlosbeWebServiceClient translator;
+    private GlosbeWebServiceClient translator = new GlosbeWebServiceClient();
     
     /**
      * Узнает какой формат книги получен. Парсит книгу, используя нужный парсер.
      * @param inputStream книга для парсинга.
      */
     public List<Word> parseBook(InputStream inputStream, String fileName, String fileType) throws BookParseException, IOException {
-        GlosbeWebServiceClient translator = new GlosbeWebServiceClient();
         BookParser bookParser = new BookParser();
     
         switch (fileType) {

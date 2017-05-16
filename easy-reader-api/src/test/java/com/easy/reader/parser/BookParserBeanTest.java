@@ -15,6 +15,7 @@ import org.jboss.arquillian.persistence.CleanupStrategy;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,14 @@ public class BookParserBeanTest {
                 .addPackage(GlosbeWebServiceClient.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");
+    }
+    
+    
+    @After
+    public void cleanUp() {
+        bookWordDao.findAll().forEach(bw -> bookWordDao.delete(bw));
+        bookDao.findAll().forEach(b -> bookDao.delete(b));
+        wordDao.findAll().forEach(w -> wordDao.delete(w));
     }
     
     @Test
