@@ -7,9 +7,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Test for fb2 book parser
@@ -29,9 +27,29 @@ public class BookParserTest {
         String[] expectedWordsArray = {"the", "martin", "london", "home", "opened", "one", "door"};
         InputStream resource = getClass().getResourceAsStream("/xmlParserTest.xml");
         try {
-            Set<String> words = bookParser.parse(resource);
+            Map<String, String> words = bookParser.parse(resource);
             Set<String> expectedWordsSet = new HashSet<>(Arrays.asList(expectedWordsArray));
-            Assert.assertEquals(expectedWordsSet, words);
+            Assert.assertEquals(expectedWordsSet, words.keySet());
+        } catch (IOException exception) {
+            LOGGER.error("Error while parsing book", exception);
+            Assert.fail();
+        }
+    }
+    
+    @Test
+    public void testParseWithContext() {
+        HashMap<String, String> expectedWords = new HashMap<>();
+        expectedWords.put("the", "The; one");
+        expectedWords.put("one", "The; one");
+        expectedWords.put("door", " opened, the: door");
+        expectedWords.put("opened", " opened, the: door");
+        expectedWords.put("london", "London");
+        expectedWords.put("martin", "Martin");
+        expectedWords.put("home", "\"home\" one");
+        InputStream resource = getClass().getResourceAsStream("/xmlParserTest.xml");
+        try {
+            Map<String, String> words = bookParser.parse(resource);
+            Assert.assertEquals(expectedWords, words);
         } catch (IOException exception) {
             LOGGER.error("Error while parsing book", exception);
             Assert.fail();

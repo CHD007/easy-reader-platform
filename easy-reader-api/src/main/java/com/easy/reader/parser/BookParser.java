@@ -4,7 +4,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Парсер книги.
@@ -18,7 +18,7 @@ public class BookParser {
         this.parser = parser;
     }
     
-    public Set<String> parse(InputStream in) throws IOException {
+    public Map<String, String> parse(InputStream in) throws IOException {
         return parser.parse(in);
     }
     
