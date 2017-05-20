@@ -76,8 +76,7 @@ public class FB2Parser implements Parser {
                 .forEach(sentence -> {
                     List<String> wordsInSentence = Arrays.asList(sentence.split("\\P{L}+"));
                     wordsInSentence.stream()
-                            .filter(word -> !word.isEmpty())
-                            .filter(word -> !allWords.containsKey(word))
+                            .filter(word -> !word.isEmpty() && !allWords.containsKey(word))
                             .map(String::toLowerCase)
                             .forEach(word -> allWords.put(word, sentence));
                 });

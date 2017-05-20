@@ -1,5 +1,7 @@
 package com.easy.reader.persistance.entity;
 
+import com.easy.reader.persistance.dto.BookWordDto;
+import com.easy.reader.persistance.dto.DataTransferable;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +22,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true, exclude = "context")
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class BookWord extends BaseEntity {
+public class BookWord extends BaseEntity implements DataTransferable<BookWord, BookWordDto> {
     @ElementCollection
     private List<String> context = new ArrayList<>();
 
@@ -37,4 +39,20 @@ public class BookWord extends BaseEntity {
     @JoinColumn(name = "userFk")
     @XmlInverseReference(mappedBy = "bookWords")
     private User userFk;
+    
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    
+    @Override
+    public BookWordDto toWrapper(BookWord entity) {
+        BookWordDto bookWordDto = new BookWordDto();
+        bookWordDto.setId(entity.getId());
+        bookWordDto.setContext(entity.getContext());
+        bookWordDto.setTranscription(entity.getWordFk().getTranscription());
+        bookWordDto.setTranslation(entity.getWordFk().getTranslation());
+        bookWordDto.setWordName(entity.getWordFk().getWordName());
+        bookWordDto.setBookName(entity.getBookFk().getBookName());
+        bookWordDto.setStatus(entity.getStatus());
+        return bookWordDto;
+    }
 }

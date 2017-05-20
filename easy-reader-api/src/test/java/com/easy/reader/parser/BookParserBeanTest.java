@@ -3,6 +3,8 @@ package com.easy.reader.parser;
 import com.easy.reader.persistance.dao.BookDao;
 import com.easy.reader.persistance.dao.BookWordDao;
 import com.easy.reader.persistance.dao.WordDao;
+import com.easy.reader.persistance.dto.BookDto;
+import com.easy.reader.persistance.dto.DataTransferable;
 import com.easy.reader.persistance.entity.Book;
 import com.easy.reader.persistance.entity.BookWord;
 import com.easy.reader.persistance.entity.Word;
@@ -49,6 +51,9 @@ public class BookParserBeanTest {
                 .addPackage(BookParser.class.getPackage())
                 .addPackage(Book.class.getPackage())
                 .addPackage(BookDao.class.getPackage())
+                .addPackage(BookDto.class.getPackage())
+                .addClass(Book.class)
+                .addClass(DataTransferable.class)
                 .addPackage(GlosbeWebServiceClient.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");

@@ -7,15 +7,16 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * DTO for Words.
+ * DTO for BookWords.
  * @author dchernyshov
  */
 @Data
-public class WordDto implements Serializable {
+public class BookWordDto implements Serializable {
     private long id;
     private String wordName;
     private String transcription;
     private String translation;
     private Status status;
+    private String bookName;
     private List<String> context;
 }

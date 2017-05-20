@@ -3,8 +3,9 @@ package com.easy.reader.rest;
 import com.easy.reader.api.ApplicationConfiguration;
 import com.easy.reader.parser.BookParser;
 import com.easy.reader.persistance.dao.BookDao;
+import com.easy.reader.persistance.dto.BookDto;
+import com.easy.reader.persistance.dto.BookWordDto;
 import com.easy.reader.persistance.entity.Book;
-import com.easy.reader.persistance.entity.BookWord;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.Cleanup;
@@ -46,6 +47,7 @@ public class BookServiceTest {
                 .addPackage(Book.class.getPackage())
                 .addPackage(BookDao.class.getPackage())
                 .addPackage(BookService.class.getPackage())
+                .addPackage(BookDto.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebResource("xmlParserTest.xml")
                 .addClass(ApplicationConfiguration.class)
@@ -64,7 +66,7 @@ public class BookServiceTest {
     @Test
     @UsingDataSet("books.yml")
     public void testGetBook() {
-        Book book = target.path("1").request().get(Book.class);
+        BookDto book = target.path("1").request().get(BookDto.class);
         Assert.assertEquals("Head First", book.getBookName());
     }
     
@@ -72,7 +74,7 @@ public class BookServiceTest {
     @UsingDataSet("books.yml")
     public void testGetBooks() {
         Response response = target.request().get();
-        List<Book> books = response.readEntity(new GenericType<List<Book>>() {});
+        List<BookDto> books = response.readEntity(new GenericType<List<BookDto>>() {});
         Assert.assertEquals(1, books.size());
     }
 
@@ -81,7 +83,7 @@ public class BookServiceTest {
     @UsingDataSet({"datasets/books.yml", "datasets/words.yml", "datasets/users.yml", "datasets/bookWords.yml"})
     public void testGetBookWordsForBook() {
         Response response = target.path("1/book_words").request().get();
-        List<BookWord> bookWords = response.readEntity(new GenericType<List<BookWord>>() {});
+        List<BookWordDto> bookWords = response.readEntity(new GenericType<List<BookWordDto>>() {});
         Assert.assertEquals(4, bookWords.size());
     }
 }

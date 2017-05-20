@@ -3,6 +3,8 @@ package com.easy.reader.rest;
 import com.easy.reader.persistance.dao.BookDao;
 import com.easy.reader.persistance.dao.BookWordDao;
 import com.easy.reader.persistance.dao.WordDao;
+import com.easy.reader.persistance.dto.BookDto;
+import com.easy.reader.persistance.dto.BookWordDto;
 import com.easy.reader.persistance.entity.Book;
 import com.easy.reader.persistance.entity.BookWord;
 import com.easy.reader.persistance.entity.Word;
@@ -15,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -33,22 +36,23 @@ public class BookService {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Book> getAllBooks() {
-        return bookDao.findAll();
+    public List<BookDto> getAllBooks() {
+        return bookDao.findAll().stream().map(en -> en.toWrapper(en)).collect(Collectors.toList());
     }
-    
+
     @GET
     @Path("/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Book getBook(@PathParam("bookId") Long id) {
-        return bookDao.findById(id);
+    public BookDto getBook(@PathParam("bookId") Long id) {
+        Book book = bookDao.findById(id);
+        return book.toWrapper(book);
     }
 
     @GET
     @Path("/{bookId}/book_words")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BookWord> getBookWords(@PathParam("bookId") Long bookId) {
-        return bookWordDao.findAllWordsByBookId(bookId);
+    public List<BookWordDto> getBookWords(@PathParam("bookId") Long bookId) {
+        return bookWordDao.findAllWordsByBookId(bookId).stream().map(en -> en.toWrapper(en)).collect(Collectors.toList());
     }
     
     @PostConstruct

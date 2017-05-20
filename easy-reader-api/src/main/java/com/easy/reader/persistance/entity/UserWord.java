@@ -42,6 +42,7 @@ public class UserWord extends BaseEntity implements DataTransferable<UserWord, W
     @Override
     public WordDto toWrapper(UserWord userWord) {
         WordDto wordDto = new WordDto();
+        wordDto.setId(userWord.getId());
         wordDto.setWordName(userWord.getWordFk().getWordName());
         wordDto.setTranslation(userWord.getWordFk().getTranslation());
         wordDto.setTranscription(userWord.getWordFk().getTranscription());
