@@ -43,10 +43,48 @@
 
     }
 
+    .hide-dropdown {
+      max-height: 50px !important;
+    }
+
     .upload-form {
+      transition: max-height 0.8s ease;
       display: flex;
-      flex: 1 1 200px;
+      flex: 1 1 160px;
       flex-flow: column;
+      max-height: 200px;
+
+      .form-dropdown {
+        background: transparent;
+        transition: all 0.3s;
+        padding: 10px 0;
+        justify-content: space-between;
+        display: flex;
+        flex: 0 0;
+        flex-direction: row;
+        width: 250px;
+        cursor: default;
+
+        p {
+          margin-bottom: 0;
+          line-height: 20px;
+          font-size: 20px;
+          font-weight: 600;
+          background: transparent;
+          transition: background-color, color 0.3s;
+          color: $light-coral;
+        }
+
+        &:hover {
+          background: lighten(gray, 45%);
+
+          p {
+            color: darken($light-coral,5%);
+          }
+
+        }
+
+      }
 
       .upload-label {
         text-align: center;
@@ -74,7 +112,7 @@
       }
 
       .upload:focus + label, .upload + label:hover {
-        background-color: lighten(red,15%);
+        background-color: lighten(red, 15%);
       }
 
       .upload + label {
@@ -90,33 +128,35 @@
       }
 
       .form-group {
-
+        padding-top: 15px;
+        display: flex;
+        flex: 0 0 150px;
+        flex-direction: column;
+        max-height: 300px;
         line-height: 20px;
-        padding-bottom: 20px;
-        margin-top: 10px;
-
-        label {
-          font-size: 16px;
-          color: $content-color;
-        }
 
         .input-field {
           height: 20px;
         }
 
+        label {
+          margin-top: 15px;
+        }
+
       }
+
     }
 
     input.input-field {
-      width: 200px;
+      width: 250px;
       display: block;
       border: none;
       padding: 10px 0;
-      border-bottom: solid 1px lighten(red,25%);
+      border-bottom: solid 1px lighten(red, 25%);
       transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
-      background-size: 200px 100%;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, lighten(red,20%) 4%) no-repeat -200px 0;
-      color: lighten(red,25%);
+      background-size: 250px 100%;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, lighten(red, 20%) 4%) no-repeat -250px 0;
+      color: lighten(red, 25%);
     }
 
     input.input-field:focus, input.input-field:valid {
@@ -131,15 +171,16 @@
     }
 
     input.input-field:focus::-webkit-input-placeholder, input.input-field:valid::-webkit-input-placeholder {
-      color: lighten(red,25%);
+      color: lighten(red, 25%);
       font-size: 13px;
       -webkit-transform: translateY(-20px);
       transform: translateY(-20px);
       visibility: visible !important;
     }
 
-
     #library-wrapper {
+      margin-top: 15px;
+      background: white;
       display: flex;
       flex-direction: column;
       flex: 1 1;
@@ -179,4 +220,5 @@
       margin-left: 0;
     }
   }
+
 }
