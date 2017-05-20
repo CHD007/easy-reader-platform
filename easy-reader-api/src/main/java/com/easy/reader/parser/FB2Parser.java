@@ -11,11 +11,8 @@ import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * FB2 parser
@@ -23,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class FB2Parser implements Parser {
     private static final Logger LOGGER = Logger.getLogger(FB2Parser.class);
-    private Set<String> words = new HashSet<>();
+    private Map<String, String> allWords = new HashMap<>();
     private XMLInputFactory factory = XMLInputFactory.newInstance();
     
     /**
@@ -34,7 +31,7 @@ public class FB2Parser implements Parser {
      * @throws XMLStreamException
      */
     @Override
-    public Set<String> parse(InputStream in) throws IOException {
+    public Map<String, String> parse(InputStream in) throws IOException {
         try {
             XMLEventReader eventReader = factory.createXMLEventReader(in);
             while (eventReader.hasNext()) {
@@ -50,7 +47,7 @@ public class FB2Parser implements Parser {
         } catch (XMLStreamException xmlStreamException) {
             LOGGER.error("Error while parsing book", xmlStreamException);
         }
-        return words;
+        return allWords;
     }
     
     /**
@@ -74,10 +71,15 @@ public class FB2Parser implements Parser {
     private void processParagraph(Characters characters) {
         StringBuilder chars = new StringBuilder();
         chars.append(characters.getData());
-        List<String> strings = Arrays.asList(chars.toString().split("\\P{L}+"));
-        words.addAll(strings.stream()
-                .filter(str -> !str.isEmpty())
-                .map(String::toLowerCase)
-                .collect(Collectors.toList()));
+        String[] sentences = chars.toString().split("[.!?]");
+        Stream.of(sentences)
+                .forEach(sentence -> {
+                    List<String> wordsInSentence = Arrays.asList(sentence.split("\\P{L}+"));
+                    wordsInSentence.stream()
+                            .filter(word -> !word.isEmpty())
+                            .filter(word -> !allWords.containsKey(word))
+                            .map(String::toLowerCase)
+                            .forEach(word -> allWords.put(word, sentence));
+                });
     }
 }

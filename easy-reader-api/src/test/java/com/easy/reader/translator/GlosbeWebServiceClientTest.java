@@ -15,4 +15,11 @@ public class GlosbeWebServiceClientTest {
         Word word = glosbeWebServiceClient.getWordWithTranslation("home");
         Assert.assertEquals("дом, домой, дома, домашний, родина", word.getTranslation());
     }
+    
+    @Test
+    public void getTranslationTest() {
+        GlosbeWebServiceClient glosbeWebServiceClient = new GlosbeWebServiceClient();
+        String wordTranslation = glosbeWebServiceClient.getWordTranslation("home");
+        Assert.assertEquals("дом, домой, дома, домашний, родина", wordTranslation);
+    }
 }

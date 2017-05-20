@@ -4,13 +4,18 @@ import com.easy.reader.persistance.dao.BookDao;
 import com.easy.reader.persistance.dao.BookWordDao;
 import com.easy.reader.persistance.dao.WordDao;
 import com.easy.reader.persistance.entity.Book;
+import com.easy.reader.persistance.entity.BookWord;
 import com.easy.reader.persistance.entity.Word;
+import com.easy.reader.translator.GlosbeWebServiceClient;
 import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.Cleanup;
+import org.jboss.arquillian.persistence.CleanupStrategy;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,10 +23,7 @@ import org.junit.runner.RunWith;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
  * @author dchernyshov
  */
 @RunWith(Arquillian.class)
+@Cleanup(strategy = CleanupStrategy.USED_TABLES_ONLY)
 public class BookParserBeanTest {
     private static final Logger LOGGER = Logger.getLogger(BookParserBeanTest.class);
     @Inject
@@ -46,8 +49,17 @@ public class BookParserBeanTest {
                 .addPackage(BookParser.class.getPackage())
                 .addPackage(Book.class.getPackage())
                 .addPackage(BookDao.class.getPackage())
+                .addPackage(GlosbeWebServiceClient.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml");
+    }
+    
+    
+    @After
+    public void cleanUp() {
+        bookWordDao.findAll().forEach(bw -> bookWordDao.delete(bw));
+        bookDao.findAll().forEach(b -> bookDao.delete(b));
+        wordDao.findAll().forEach(w -> wordDao.delete(w));
     }
     
     @Test
@@ -66,6 +78,32 @@ public class BookParserBeanTest {
             Assert.assertEquals(1, bookDao.findAll().size());
         } catch (BookParseException e) {
             LOGGER.error("Error while parsing book", e);
+            Assert.fail();
+        }
+    }
+    
+    @Test
+    public void testParseWithContext() {
+        HashMap<String, String> expectedWords = new HashMap<>();
+        expectedWords.put("the", "The; one");
+        expectedWords.put("one", "The; one");
+        expectedWords.put("door", " opened, the: door");
+        expectedWords.put("opened", " opened, the: door");
+        expectedWords.put("london", "London");
+        expectedWords.put("martin", "Martin");
+        expectedWords.put("home", "\"home\" one");
+        InputStream resource = getClass().getResourceAsStream("/xmlParserTest.xml");
+        try {
+            List<Word> words = bookParserBean.parseBook(resource,"/xmlParserTest.xml", "fb2");
+            List<BookWord> allWordsByBookId = bookWordDao.findAllWordsByBookId(bookDao.findBookByName("/xmlParserTest.xml").get().getId());
+            Assert.assertEquals(expectedWords.size(), allWordsByBookId.size());
+            Map<String, String> actualWords = new HashMap<>();
+            allWordsByBookId.stream()
+                    .forEach(bookWord -> actualWords.put(bookWord.getWordFk().getWordName(),
+                            bookWord.getContext().get(0)));
+            Assert.assertEquals(expectedWords, actualWords);
+        } catch (IOException | BookParseException exception) {
+            LOGGER.error("Error while parsing book", exception);
             Assert.fail();
         }
     }
