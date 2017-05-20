@@ -3,9 +3,14 @@ package com.easy.reader.rest;
 import com.easy.reader.parser.BookParseException;
 import com.easy.reader.parser.BookParserBean;
 import org.apache.log4j.Logger;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.ejb.EJB;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -13,6 +18,7 @@ import java.io.InputStream;
 
 /**
  * Book upload api
+ *
  * @author dchernyshov
  */
 @Path("/upload")
@@ -22,14 +28,18 @@ public class BookUploadService {
     private BookParserBean bookParserBean;
 
     @POST
-    @Consumes(MediaType.APPLICATION_OCTET_STREAM)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response uploadFile(@QueryParam("fileName") String fileName, InputStream content) {
-        String[] split = fileName.split("\\.");
-        String fileType = split[split.length - 1];
-    
+    public Response uploadFile(@FormDataParam("uploadFile") InputStream uploadedInputStream,
+                               @FormDataParam("uploadFile") FormDataContentDisposition fileDetail) {
+        // check if all form parameters are provided
+        if (uploadedInputStream == null || fileDetail == null)
+            return Response.status(400).entity("Invalid form data").build();
+
         try {
-            bookParserBean.parseBook(content, fileName, fileType);
+            String[] split = fileDetail.getFileName().split("\\.");
+            String fileType = split[split.length - 1];
+            bookParserBean.parseBook(uploadedInputStream, fileDetail.getFileName(), fileType);
             return Response.ok().build();
         } catch (BookParseException | IOException e) {
             LOGGER.error("Error while parsing book", e);

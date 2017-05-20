@@ -1,0 +1,21 @@
+<nav>
+  <ul class="main-left-menu">
+    <li [ngClass]="{'main-selected': isAboutActive}"
+        class="main-left-button">
+      <a class="left-button-link" (click)="changeAbout()">
+        <i class="material-icons">home</i>About<img src="img/arrow_drop_down_grey_18x18.png"/>
+      </a>
+
+      <ul [ngClass]="{'enabled': isAboutActive,'disabled': !isAboutActive}" class="nav-inner-list">
+        <li class="inner-list-section"><a routerLink='/home' routerLinkActive="active"><i class="right-arrow">
+        </i>What's that?</a></li>
+        <li class="inner-list-section"><a routerLink='/start' routerLinkActive="active"><i class="right-arrow">
+        </i>How to start</a></li>
+      </ul>
+    </li>
+    <li class="main-left-button"><a routerLink="/library" class="left-button-link" href="#"><i class="material-icons">local_library</i>
+      <span>Books Library</span></a></li>
+    <li class="main-left-button"><a class="left-button-link" href="#"><i class="material-icons">chrome_reader_mode</i>
+      <span>Words Library</span></a></li>
+  </ul>
+</nav>

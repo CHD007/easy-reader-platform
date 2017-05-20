@@ -1,0 +1,47 @@
+@import "../../../style/common";
+
+:host {
+
+  //component should be 100%
+  width: 100%;
+
+  //box with all component content
+  article.main-box {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.24);
+  }
+
+  article {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background: #F3F3F5;
+    flex: 1 1;
+    order: 1;
+
+    //child content box with main content
+    .context-box {
+      @extend  .context-box-common;
+
+      p {
+        margin: 0 0 15px 0;
+      }
+
+      h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
+
+    }
+
+  }
+
+  @media (max-width: 800px) {
+
+    article.main-box {
+      margin-left: 0;
+    }
+
+  }
+
+}

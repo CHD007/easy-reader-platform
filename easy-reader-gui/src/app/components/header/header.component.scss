@@ -1,0 +1,94 @@
+:host {
+
+  nav {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex-flow: row;
+  }
+
+  .image-wrapper {
+    cursor: pointer;
+    padding-right: 16px;
+    background-color: transparent;
+    align-items: center;
+    display: flex;
+    transition: background-color .3s;
+
+    img {
+      width: 65px;
+      height: 64px;
+    }
+
+    #logo-text {
+      font-size: 29px;
+      color: white;
+      font-weight: 300;
+      border-bottom: 1px white solid;
+    }
+
+    &:hover, &:focus {
+      background-color: transparentize(white, 0.8);
+    }
+  }
+
+  .header-menu-button {
+    width: 128px;
+    height: 64px;
+    color: white;
+    border-width: 0;
+    outline: none;
+    border-radius: 2px;
+
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 400;
+    transition: background-color .3s;
+    text-transform: uppercase;
+
+    &:hover, &:focus {
+      background-color: transparentize(white, 0.8);
+    }
+
+  }
+
+  .drop-down-icon {
+    &:before {
+      transform: scale(1, 0.5);
+      display: inline-block;
+      font-size: 1em;
+      color: transparentize(white, 0.2);
+      padding-left: 6px;
+      content: "\25BC";
+    }
+
+  }
+
+  @media (min-width: 801px) {
+    .header-menu-button.mobile {
+      display: none;
+    }
+
+    dropdown-list {
+      display: none;
+    }
+  }
+
+  @media (max-width: 801px) {
+    .header-menu-button.desktop {
+      display: none;
+    }
+  }
+
+  //@media (min-width: 801px) {
+  //  .header-menu-button .mobile {
+  //    display: none;
+  //  }
+  //
+  //  dropdown-list {
+  //    display: none;
+  //  }
+  //
+  //}
+
+}

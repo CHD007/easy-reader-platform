@@ -1,10 +1,24 @@
 package com.easy.reader.api;
 
+import com.easy.reader.rest.BookService;
+import com.easy.reader.rest.BookUploadService;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @ApplicationPath("/")
 public class ApplicationConfiguration extends Application {
-    public ApplicationConfiguration() {
+    public ApplicationConfiguration() {}
+
+    @Override
+    public Set<Class<?>> getClasses() {
+        return new HashSet<>(Arrays.asList(
+                BookService.class,
+                BookUploadService.class,
+                MultiPartFeature.class));
     }
 }

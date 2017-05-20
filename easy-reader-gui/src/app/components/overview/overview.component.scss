@@ -1,0 +1,115 @@
+@import "../../../style/common";
+
+:host {
+
+  //component should be 100%
+  width: 100%;
+
+  //box with all component content
+  article.main-box {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.24);
+  }
+
+  article {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background: #F3F3F5;
+    flex: 1 1;
+    order: 1;
+
+    //child content box with main content
+    .context-box {
+
+      @extend .context-box-common;
+
+      #overview-case {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .overview-book-image {
+        margin-bottom: 10px;
+        width: 80px;
+        height: 80px;
+      }
+
+      .image-wrapper {
+        text-align: center;
+      }
+
+      #load-section {
+        display: flex;
+        flex-direction: column;
+
+        #formats {
+          margin-top: 10px;
+        }
+      }
+
+      .flex-section {
+        justify-content: center;
+        text-align: center;
+        flex: 1 1;
+      }
+
+      .our-goals {
+        display: flex;
+        flex-flow: column;
+
+        p:first-child {
+          font-size: 20px;
+          font-weight: 600;
+        }
+
+        p {
+          text-align: center;
+        }
+
+        .flex-column-goals {
+          padding: 0 10px;
+          flex-flow: column;
+          display: flex;
+          flex: 1 0 110px;
+        }
+
+        .flex-column {
+          display: flex;
+          flex-direction: row;
+        }
+      }
+
+      .goal-wrapper {
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+
+        img {
+          width: 80px;
+          height: 80px;
+        }
+
+        p.goal-label {
+          font-size: 20px;
+          font-weight: 600;
+          margin-bottom: 0;
+        }
+      }
+
+    }
+  }
+
+  @media (max-width: 800px) {
+
+    .our-goals.flex-column-goals {
+      padding: 0;
+    }
+
+    article.main-box {
+      margin-left: 0;
+    }
+
+  }
+
+}

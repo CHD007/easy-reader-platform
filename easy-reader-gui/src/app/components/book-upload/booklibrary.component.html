@@ -1,0 +1,32 @@
+<article class="main-box">
+  <header class="article-header">
+    <h1 class="article-title-text">Book Library</h1>
+  </header>
+  <article class="context-box">
+    <div class="upload-form" [ngClass]="{'hide-dropdown':isUploadFormHidden}">
+      <div class="form-dropdown" (click)="changeUploadFormState()">
+        <p>Upload new book</p>
+        <div class="image-wrapper"><img src="img/arrow_drop_down_grey_18x18.png"/></div>
+      </div>
+      <div class="form-group">
+        <input type="text" id="name" class="input-field" name="name" placeholder="Book name" required>
+        <input (change)="changeUpload($event)" type="file" name="file" id="file" class="upload" placeholder="Upload file" accept=".fb2,.txt,.doc">
+        <label class="upload-label" for="file">Choose a file</label>
+      </div>
+    </div>
+
+    <div id="library-wrapper">
+      <div *ngFor="let book of books" class="book-wrapper">
+        <div class="book-name"><span>{{book.name}}</span></div>
+        <div class="book-info">
+          <span class="words">Words: {{book.words}}</span>
+          (<span class="green"> {{book.newWords}} </span>
+          /<span class="yellow"> {{book.inProgress}} </span>
+          /<span class="black"> {{book.learned}} </span>)
+        </div>
+        <hr>
+      </div>
+
+    </div>
+  </article>
+</article>
