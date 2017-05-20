@@ -37,7 +37,7 @@ export class BookLibraryComponent {
       headers.append('Accept', 'application/json');
       let options = new RequestOptions(<any>{headers: headers});
 
-      this.http.post("http://localhost:8079", formData, options)
+      this.http.post("http://localhost:8080/easy-reader-api/upload", formData, options)
         .map(res => res.json())
         .catch(error => Observable.throw(error))
         .subscribe(
