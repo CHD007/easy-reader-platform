@@ -14,6 +14,7 @@ import {DropdownComponent} from './components/header/dropdown/dropdown.component
 import {OverviewComponent} from './components/overview/overview.component';
 import {HowToComponent} from "./components/howtostart/howto.component";
 import {BookLibraryComponent} from "./components/book-upload/booklibrary.component";
+import {DataService} from "./services/data.service";
 
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import {BookLibraryComponent} from "./components/book-upload/booklibrary.compone
     HomeComponent,
     HeaderComponent
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

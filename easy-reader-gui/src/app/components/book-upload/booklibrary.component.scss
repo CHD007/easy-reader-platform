@@ -88,7 +88,7 @@
 
       .upload-label {
         text-align: center;
-        width: 150px;
+        width: 123px;
         line-height: 30px;
         height: 30px;
       }
@@ -102,7 +102,9 @@
         z-index: -1;
       }
 
-      .upload + label {
+      .upload ~ div label {
+        transition: background-color 0.6s;
+        cursor: pointer; /* "hand" cursor */
         padding: 2px 0;
         font-size: 17px;
         font-weight: 400;
@@ -111,13 +113,10 @@
         display: inline-block;
       }
 
-      .upload:focus + label, .upload + label:hover {
+      .upload:focus ~ div label , .upload ~ div label:hover {
         background-color: lighten(red, 15%);
       }
 
-      .upload + label {
-        cursor: pointer; /* "hand" cursor */
-      }
 
       h2 {
         line-height: 24px;

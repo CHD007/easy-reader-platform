@@ -31,17 +31,16 @@ public class BookUploadService {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_PLAIN)
     public Response uploadFile(@FormDataParam("uploadFile") InputStream uploadedInputStream,
-                               @FormDataParam("uploadFile") FormDataContentDisposition fileDetail) {
-        // check if all form parameters are provided
+                               @FormDataParam("uploadFile") FormDataContentDisposition fileDetail,
+                               @FormDataParam("fileName") String fileName) {
         if (uploadedInputStream == null || fileDetail == null)
             return Response.status(400).entity("Invalid form data").build();
-
         try {
             String[] split = fileDetail.getFileName().split("\\.");
             String fileType = split[split.length - 1];
-            bookParserBean.parseBook(uploadedInputStream, fileDetail.getFileName(), fileType);
+            bookParserBean.parseBook(uploadedInputStream, fileName, fileType);
             return Response.ok().build();
-        } catch (BookParseException | IOException e) {
+        } catch (IOException | BookParseException e) {
             LOGGER.error("Error while parsing book", e);
             return Response.status(Response.Status.UNSUPPORTED_MEDIA_TYPE).entity("Invalid file type").build();
         }

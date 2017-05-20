@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
-import {Book} from "../../shared/book";
-import {Http, RequestOptions} from "@angular/http";
-import {Observable} from "rxjs/Observable";
+import {Book} from '../../shared/book';
+import {DataService} from '../../services/data.service';
 
 @Component({
   selector: 'book-library',
@@ -9,16 +8,19 @@ import {Observable} from "rxjs/Observable";
   styleUrls: ['booklibrary.component.scss']
 })
 export class BookLibraryComponent {
+  uploadFileName: string;
+  labelStates: string[] = ['Choose file', 'File selected'];
 
   private isUploadFormHidden: boolean = true;
   private isFileSelected: boolean = false;
+  private fileList: FileList;
 
   private books: Array<Book> = [];
 
-  constructor(private http: Http) {
-    this.books.push(new Book("Alice in Wonderland", 2453, 876, 1200));
-    this.books.push(new Book("The Story of Eugene Titkov", 2453, 876, 1200));
-    this.books.push(new Book("Nothing but truth", 2453, 876, 1200));
+  constructor(private service: DataService) {
+    this.books.push(new Book('Alice in Wonderland', 2453, 876, 1200));
+    this.books.push(new Book('The Story of Eugene Titkov', 2453, 876, 1200));
+    this.books.push(new Book('Nothing but truth', 2453, 876, 1200));
   }
 
   changeUploadFormState() {
@@ -26,25 +28,24 @@ export class BookLibraryComponent {
   }
 
   changeUpload(event: any) {
-    this.isFileSelected = !this.isFileSelected;
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-      let file: File = fileList[0];
-      let formData: FormData = new FormData();
-      formData.append('uploadFile', file, file.name);
-      let headers = new Headers();
-      headers.append('Content-Type', 'multipart/form-data');
-      headers.append('Accept', 'application/json');
-      let options = new RequestOptions(<any>{headers: headers});
-
-      this.http.post("http://localhost:8080/easy-reader-api/upload", formData, options)
-        .map(res => res.json())
-        .catch(error => Observable.throw(error))
-        .subscribe(
-          data => console.log(data),
-          error => console.log(error)
-        )
+      this.isFileSelected = true;
+      this.fileList = fileList;
+      this.uploadFileName = fileList[0].name;
     }
+  }
+
+  performUpload() {
+    this.service.uploadFile(this.fileList, this.uploadFileName).subscribe(
+      (result) => {
+        console.log(result);
+        this.fileList = null;
+        this.isFileSelected = false;
+        this.isUploadFormHidden = true;
+        this.uploadFileName = '';
+      }
+    );
   }
 
 }

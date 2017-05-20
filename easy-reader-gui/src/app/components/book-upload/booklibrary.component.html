@@ -5,13 +5,17 @@
   <article class="context-box">
     <div class="upload-form" [ngClass]="{'hide-dropdown':isUploadFormHidden}">
       <div class="form-dropdown" (click)="changeUploadFormState()">
-        <p>Upload new book</p>
+        <p *ngIf="labelStates.length > 0">{{isFileSelected ? labelStates[1] : labelStates[0]}}</p>
         <div class="image-wrapper"><img src="img/arrow_drop_down_grey_18x18.png"/></div>
       </div>
       <div class="form-group">
-        <input type="text" id="name" class="input-field" name="name" placeholder="Book name" required>
-        <input (change)="changeUpload($event)" type="file" name="file" id="file" class="upload" placeholder="Upload file" accept=".fb2,.txt,.doc">
-        <label class="upload-label" for="file">Choose a file</label>
+        <input [(ngModel)]="uploadFileName" type="text" id="name" class="input-field" name="name" placeholder="Book name" required>
+        <input (change)="changeUpload($event)" type="file" name="file" id="file" class="upload"
+               placeholder="Upload file" accept=".fb2,.txt,.doc">
+        <div>
+          <label class="upload-label" for="file">Choose a file</label>
+          <label (click)="performUpload()" class="upload-label">Upload</label>
+        </div>
       </div>
     </div>
 

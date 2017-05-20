@@ -1,5 +1,6 @@
 package com.easy.reader.api;
 
+import com.easy.reader.filters.CorsFilter;
 import com.easy.reader.rest.BookService;
 import com.easy.reader.rest.BookUploadService;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -18,6 +19,7 @@ public class ApplicationConfiguration extends Application {
     public Set<Class<?>> getClasses() {
         return new HashSet<>(Arrays.asList(
                 BookService.class,
+                CorsFilter.class,
                 BookUploadService.class,
                 MultiPartFeature.class));
     }
