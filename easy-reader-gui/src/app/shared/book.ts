@@ -1,15 +1,21 @@
+/**
+ * Book DTO
+ * @author Evgenii Ray
+ */
 export class Book {
 
-  constructor(public name: string,
+  constructor(public bookName: string,
+              public newWords: number,
+              public id: number,
               public words: number,
-              public learned: number,
-              public inProgress: number,
-              public newWords?:number) {
-    this.name = name;
+              public learnedWords: number,
+              public inProgress: number) {
+    this.newWords = newWords;
+    this.id = id;
+    this.bookName = bookName;
     this.words = words;
-    this.learned = learned;
+    this.learnedWords = learnedWords;
     this.inProgress = inProgress;
-    this.newWords = words - learned - inProgress;
-
   }
+
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * DTO for books.
+ *
  * @author dchernyshov
  */
 @Data
@@ -17,7 +18,15 @@ import java.util.List;
 public class BookDto implements Serializable {
     private long id;
     private String bookName;
-    private int totalWords;
-    private int learnedWords;
+    private long words;
+    private long learnedWords;
+    private long inProgress;
+    private long newWords;
     private List<BookWordDto> bookWords;
+
+
+    public BookDto calculateNewWords() {
+        newWords = words - learnedWords - inProgress;
+        return this;
+    }
 }
