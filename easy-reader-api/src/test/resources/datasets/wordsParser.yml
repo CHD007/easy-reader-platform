@@ -1,0 +1,29 @@
+WORD:
+  - id: 1
+    wordName: "the"
+    transcription: "the"
+    translation: "определенный артикль"
+  - id: 2
+    wordName: "martin"
+    transcription: "martin"
+    translation: "Мартин"
+  - id: 3
+    wordName: "london"
+    transcription: "london"
+    translation: "Лондон"
+  - id: 4
+    wordName: "home"
+    transcription: "home"
+    translation: "дом"
+  - id: 5
+    wordName: "opened"
+    transcription: "opened"
+    translation: "открытый"
+  - id: 6
+    wordName: "one"
+    transcription: "one"
+    translation: "один"
+  - id: 7
+    wordName: "door"
+    transcription: "door"
+    translation: "дверь"

@@ -14,6 +14,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.Cleanup;
 import org.jboss.arquillian.persistence.CleanupStrategy;
+import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -68,6 +69,7 @@ public class BookParserBeanTest {
     }
     
     @Test
+    @UsingDataSet("datasets/wordsParser.yml")
     public void testParse() throws IOException {
         String[] expectedWordsArray = {"the", "martin", "london", "home", "opened", "one", "door"};
         InputStream resource = getClass().getResourceAsStream("/xmlParserTest.xml");
@@ -88,6 +90,7 @@ public class BookParserBeanTest {
     }
     
     @Test
+    @UsingDataSet("datasets/wordsParser.yml")
     public void testParseWithContext() {
         HashMap<String, String> expectedWords = new HashMap<>();
         expectedWords.put("the", "The; one");

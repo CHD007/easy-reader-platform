@@ -66,6 +66,7 @@ public class BookParserBean {
             }
             List<Word> words = parse.keySet().stream()
                     .map((String word) -> processWord(word))
+                    .filter(word -> word != null)
                     .collect(Collectors.toList());
             words.forEach(word -> makeBookWordByWord(word, parsedBook, parse));
             return words;
@@ -76,7 +77,6 @@ public class BookParserBean {
     /**
      * Проверяет есть ли уже данное слово в базе.
      * Если слово есть, то просто его возвращаем.
-     * Если слова еще нет, то создаем его и сохраняем
      * @param wordName слово, на основе которого создается объект Word
      * @return объект типа {@link Book}, который создан
      */
@@ -84,17 +84,8 @@ public class BookParserBean {
         Optional<Word> wordByName = wordDao.findWordByName(wordName);
         if (wordByName.isPresent()) {
             return wordByName.get();
-        } else {
-            Word word1 = new Word();
-            word1.setWordName(wordName);
-            word1.setTranslation(translator.getWordTranslation(wordName));
-            wordDao.save(word1);
-            Optional<Word> wordByName1 = wordDao.findWordByName(wordName);
-            if (wordByName1.isPresent()) {
-                word1 = wordByName1.get();
-            }
-            return word1;
         }
+        return null;
     }
     
     /**
