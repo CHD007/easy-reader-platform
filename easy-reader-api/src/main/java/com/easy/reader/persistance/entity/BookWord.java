@@ -41,7 +41,7 @@ public class BookWord extends BaseEntity implements DataTransferable<BookWord, B
     private User userFk;
     
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.NEW;
     
     @Override
     public BookWordDto toWrapper(BookWord entity) {

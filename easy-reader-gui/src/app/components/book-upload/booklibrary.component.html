@@ -9,7 +9,8 @@
         <div class="image-wrapper"><img src="img/arrow_drop_down_grey_18x18.png"/></div>
       </div>
       <div class="form-group">
-        <input [(ngModel)]="uploadFileName" type="text" id="name" class="input-field" name="name" placeholder="Book name" required>
+        <input [(ngModel)]="uploadFileName" type="text" id="name" class="input-field" name="name"
+               placeholder="Book name" required>
         <input (change)="changeUpload($event)" type="file" name="file" id="file" class="upload"
                placeholder="Upload file" accept=".fb2,.txt,.doc">
         <div>
@@ -20,15 +21,19 @@
     </div>
 
     <div id="library-wrapper">
-      <div *ngFor="let book of books" class="book-wrapper">
-        <div class="book-name"><span>{{book.name}}</span></div>
-        <div class="book-info">
-          <span class="words">Words: {{book.words}}</span>
-          (<span class="green"> {{book.newWords}} </span>
-          /<span class="yellow"> {{book.inProgress}} </span>
-          /<span class="black"> {{book.learned}} </span>)
+      <div *ngFor="let book of bookList | async" class="book-row-wrapper">
+        <div class="book-info-wrapper">
+          <div class="book-name"><span>{{book.bookName}}</span></div>
+          <div class="book-info">
+            <span class="words">Words: {{book.words}}</span>
+            (<span class="green"> {{book.newWords}} </span>
+            /<span class="yellow"> {{book.inProgress}} </span>
+            /<span class="black"> {{book.learnedWords}} </span>)
+          </div>
         </div>
-        <hr>
+        <div class="action-panel">
+          <i class="material-icons" (click)="deleteBookById(book.id)">clear</i>
+        </div>
       </div>
 
     </div>

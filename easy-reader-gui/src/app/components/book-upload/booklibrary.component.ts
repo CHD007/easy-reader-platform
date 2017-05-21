@@ -1,32 +1,39 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Book} from '../../shared/book';
 import {DataService} from '../../services/data.service';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'book-library',
   templateUrl: 'booklibrary.component.html',
   styleUrls: ['booklibrary.component.scss']
 })
-export class BookLibraryComponent {
+export class BookLibraryComponent implements OnInit {
   uploadFileName: string;
   labelStates: string[] = ['Choose file', 'File selected'];
+
+  private bookList: Observable<Array<Book>>;
 
   private isUploadFormHidden: boolean = true;
   private isFileSelected: boolean = false;
   private fileList: FileList;
 
-  private books: Array<Book> = [];
-
   constructor(private service: DataService) {
-    this.books.push(new Book('Alice in Wonderland', 2453, 876, 1200));
-    this.books.push(new Book('The Story of Eugene Titkov', 2453, 876, 1200));
-    this.books.push(new Book('Nothing but truth', 2453, 876, 1200));
+  }
+
+  ngOnInit(): void {
+    this.getAllBooks();
   }
 
   changeUploadFormState() {
     this.isUploadFormHidden = !this.isUploadFormHidden;
   }
 
+  /**
+   * Prepares file and view for uploading
+   *
+   * @param event - event which is passed from input element
+   */
   changeUpload(event: any) {
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
@@ -36,17 +43,38 @@ export class BookLibraryComponent {
     }
   }
 
+  /**
+   * Uploads file on server
+   */
   performUpload() {
     this.service.uploadFile(this.fileList, this.uploadFileName).subscribe(
       (result) => {
-        console.log(result);
         this.fileList = null;
         this.isFileSelected = false;
         this.isUploadFormHidden = true;
         this.uploadFileName = '';
+        this.getAllBooks();
       }
     );
   }
+
+  /**
+   * Deletes book by its id
+   *
+   * @param id - id of the book
+   */
+  deleteBookById(id: number) {
+    this.service.deleteBookById(id).subscribe(
+      (result) => this.getAllBooks());
+  }
+
+  /**
+   * Gets all book from the server
+   */
+  private getAllBooks(): void {
+    this.bookList = this.service.getAllBooks();
+  }
+
 
 }
 

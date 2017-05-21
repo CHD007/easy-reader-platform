@@ -3,11 +3,55 @@ import {Http, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {HeadersConstants} from '../shared/headers.constants';
 import {Routes} from '../shared/api.routes';
+import {Book} from '../shared/book';
 
 @Injectable()
 export class DataService {
 
   constructor(private http: Http) {
+  }
+
+
+  /**
+   * Gets all books from the server via GET request
+   *
+   * @returns {Observable<T>}
+   */
+  public getAllBooks(): Observable<Array<Book>> {
+    return Observable.create((observer) => {
+      this.http.get(Routes.GET_ALL_BOOKS)
+        .catch(error => Observable.throw(error))
+        .subscribe(
+          result => {
+            observer.next(result.json());
+          },
+          error => {
+            observer.error(error);
+          }
+        );
+    }).take(1);
+  }
+
+
+  /**
+   * Gets all books from the server via GET request
+   *
+   * @returns {Observable<T>}
+   */
+  public deleteBookById(id: number): Observable<void> {
+    return Observable.create((observer) => {
+      this.http.delete(`${Routes.DELETE_BOOK_BY_ID}/${id}`)
+        .catch(error => Observable.throw(error))
+        .subscribe(
+          result => {
+            console.log(result);
+            observer.next();
+          },
+          error => {
+            observer.error(error);
+          }
+        );
+    }).take(1);
   }
 
   /**

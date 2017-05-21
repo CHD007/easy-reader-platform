@@ -65,13 +65,13 @@ public class BookParserBean {
                 throw new BookParseException("Error: can't found book after saving");
             }
             List<Word> words = parse.keySet().stream()
-                    .map((String word) -> processWord(word))
-                    .filter(word -> word != null)
+                    .map(this::processWord)
+                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
             words.forEach(word -> makeBookWordByWord(word, parsedBook, parse));
             return words;
         }
-        return new ArrayList<Word>();
+        return new ArrayList<>();
     }
     
     /**

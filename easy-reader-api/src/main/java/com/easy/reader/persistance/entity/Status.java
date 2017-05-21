@@ -6,5 +6,6 @@ package com.easy.reader.persistance.entity;
  */
 public enum Status {
     IN_PROGRESS,
-    LEARNED
+    LEARNED,
+    NEW
 }
