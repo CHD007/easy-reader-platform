@@ -12,7 +12,7 @@ import java.io.IOException;
  * Created by kisa on 15.05.2017.
  */
 @Stateless
-public class MyBean {
+public class ExportBean {
     public File exportInPdf() throws IOException, DocumentException {
         return ExportPdfFiles.exportPdfFiles();
     }
