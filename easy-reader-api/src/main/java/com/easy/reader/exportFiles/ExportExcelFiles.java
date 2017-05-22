@@ -18,20 +18,21 @@ import java.util.Arrays;
 public class ExportExcelFiles {
     public static String fileName = "MyWords.xls";
 
-    public void exportExcel(){
+    public static File exportExcel(){
         File file = new File(fileName);
         if (!file.exists()) {
             createExcel();
         }
         ArrayList<WordDto> wordDtoArrayList = new ArrayList<>();
         writingExcelFile(wordDtoArrayList);
+        return file;
     }
 
     public static ExportExcelFiles getExcelExport(){
         return new ExportExcelFiles();
     }
 
-    private void createExcel() {
+    private static void createExcel() {
         try {
             WritableWorkbook workbook = Workbook.createWorkbook(new File(fileName));
             WritableSheet copySheet = workbook.createSheet("My words", 0);

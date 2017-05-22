@@ -25,15 +25,16 @@ import java.util.List;
 //@Stateless
 public class ExportPdfFiles {
     public static final String DEST = "ResultExportFiles/myWords.pdf";
-    public static final String FONT = "easy-reader-api/src/main/resources/FreeSans.ttf";
+    public static final String FONT = "FreeSans.ttf";
 
   //  @Inject private Service myService;
 
-    public static void main(String args[]) throws IOException,  DocumentException {
+    public static File exportPdfFiles() throws IOException,  DocumentException {
 
         File file = new File(DEST);
         file.getParentFile().mkdirs();
         new ExportPdfFiles().writePdf(DEST);
+        return file;
     }
 
     public static void writePdf(String dest) throws IOException, DocumentException {
