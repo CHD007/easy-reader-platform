@@ -31,8 +31,7 @@ public class RestClient {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getPdfFile (@PathParam("bookId") Long id) throws IOException, DocumentException
     {
-//ошибочки обработать и в лог
-        log.log(Level.INFO, "hello!");
+        log.log(Level.INFO, "in GET method getPdfFile");
         File file = bean.exportInPdf(id);
         return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
                 .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
@@ -44,6 +43,7 @@ public class RestClient {
     public Response getExcelFile (@PathParam("bookId") Long id) throws IOException, DocumentException
     {
 
+        log.log(Level.INFO, "in GET method getExcelFile");
         File file = bean.exportInExcel(id);
         return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
                 .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
