@@ -108,7 +108,7 @@ public class BookParserBeanTest {
             Map<String, String> actualWords = new HashMap<>();
             allWordsByBookId.stream()
                     .forEach(bookWord -> actualWords.put(bookWord.getWordFk().getWordName(),
-                            bookWord.getContext().get(0)));
+                            bookWord.getContext()));
             Assert.assertEquals(expectedWords, actualWords);
         } catch (IOException | BookParseException exception) {
             LOGGER.error("Error while parsing book", exception);

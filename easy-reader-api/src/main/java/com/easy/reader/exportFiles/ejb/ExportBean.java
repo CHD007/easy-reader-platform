@@ -4,6 +4,7 @@ import com.easy.reader.exportFiles.ExportExcelFiles;
 import com.easy.reader.exportFiles.ExportPdfFiles;
 import com.itextpdf.text.DocumentException;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +14,15 @@ import java.io.IOException;
  */
 @Stateless
 public class ExportBean {
-    public File exportInPdf() throws IOException, DocumentException {
-        return ExportPdfFiles.exportPdfFiles();
+    @EJB
+    private ExportExcelFiles exportExcelFiles;
+    @EJB
+    private ExportPdfFiles exportPdfFiles;
+
+    public File exportInPdf(Long id) throws IOException, DocumentException {
+        return exportPdfFiles.exportPdfFiles(id);
     }
-    public File exportInExcel() throws IOException, DocumentException {
-        return ExportExcelFiles.exportExcel();
+    public File exportInExcel(Long id) throws IOException, DocumentException {
+        return exportExcelFiles.exportExcel(id);
     }
 }

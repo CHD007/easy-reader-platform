@@ -6,6 +6,7 @@ import com.itextpdf.text.DocumentException;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -26,26 +27,28 @@ public class RestClient {
     private ExportBean bean;
 
     @GET
-    @Path("/pdf")
+    @Path("/pdf/{bookId}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getPdfFile () throws IOException, DocumentException
+    public Response getPdfFile (@PathParam("bookId") Long id) throws IOException, DocumentException
     {
 //ошибочки обработать и в лог
         log.log(Level.INFO, "hello!");
-        File file = bean.exportInPdf();
+        File file = bean.exportInPdf(id);
         return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
                 .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
                 .build();
     }
     @GET
-    @Path("/excel")
+    @Path("/excel/{bookId}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getExcelFile () throws IOException, DocumentException
+    public Response getExcelFile (@PathParam("bookId") Long id) throws IOException, DocumentException
     {
 
-        File file = bean.exportInExcel();
+        File file = bean.exportInExcel(id);
         return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
                 .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
                 .build();
     }
+
+
 }

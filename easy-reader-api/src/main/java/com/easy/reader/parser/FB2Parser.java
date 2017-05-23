@@ -73,13 +73,6 @@ public class FB2Parser implements Parser {
         chars.append(characters.getData());
         String[] sentences = chars.toString().split("[.!?]");
         Stream.of(sentences)
-                .map(s -> {
-                    if (s.length() >= 30) {
-                        return s.substring(0, 30);
-                    } else {
-                        return s;
-                    }
-                })
                 .forEach(sentence -> {
                     List<String> wordsInSentence = Arrays.asList(sentence.split("\\P{L}+"));
                     wordsInSentence.stream()

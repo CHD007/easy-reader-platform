@@ -17,5 +17,5 @@ public class WordDto implements Serializable {
     private String transcription;
     private String translation;
     private Status status;
-    private List<String> context;
+    private String context;
 }
