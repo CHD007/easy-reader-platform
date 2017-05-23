@@ -1,0 +1,153 @@
+@import "../../../style/common";
+@import "../../../style/buttons";
+
+:host {
+  //component should be 100%
+  box-sizing: border-box;
+  width: 100%;
+
+  //box with all component content
+  article.main-box {
+    background: white;
+  }
+
+  article {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background: #F3F3F5;
+    flex: 1 1;
+    order: 1;
+
+    .article-header {
+      flex: 1 1 25px;
+      padding: 12px 24px 16px 24px;
+    }
+
+    .article-title-text {
+      font-weight: 400;
+      font-size: 24px;
+    }
+
+    //child content box with main content
+    .context-box {
+      min-height: 200px;
+      @extend .context-box-common;
+
+      p {
+        margin: 0 0 15px 0;
+      }
+
+      h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
+
+    }
+
+  }
+
+  .words-container {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    flex: 1 1 200px;
+  }
+
+  .word-name {
+    border-bottom: 1px dashed lightgray;
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .word-wrapper{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+  }
+
+  .word {
+    display: flex;
+    flex-direction: column;
+
+    .info-block:not(:first-child){
+      padding-top: 10px;
+    }
+
+  }
+
+  .action-panel {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0;
+
+    .switch {
+      width: 32px;
+      height: 32px;
+    }
+
+    .switch + label {
+      cursor: pointer;
+    }
+
+    .switch:not(checked) {
+      z-index: -1;
+      position: absolute;
+      opacity: 0;
+    }
+
+    .switch:not(checked) + label {
+      width: 32px;
+      height: 32px;
+      padding: 0 12px;
+      position: relative;
+    }
+
+    .switch:not(checked) + label:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 28px;
+      height: 28px;
+      border: 1px solid #CDD1DA;
+      border-radius: 50%;
+      background: #FFF;
+    }
+
+    .switch:not(checked) + label:after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      opacity: 0;
+      transition: all .2s;
+    }
+
+    .new:not(checked) + label:after {
+      background: #9FD468;
+    }
+
+    .learned:not(checked) + label:after {
+      background: darken(darkgray, 10%);
+    }
+
+    .in-progress:not(checked) + label:after {
+      background: darken(yellow, 10%);
+    }
+
+    .switch:checked + label:after {
+      opacity: 1;
+    }
+
+  }
+
+  @media (max-width: 800px) {
+    article.main-box {
+      margin-left: 0;
+    }
+  }
+
+}

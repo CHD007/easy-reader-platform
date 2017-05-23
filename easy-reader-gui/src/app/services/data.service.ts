@@ -3,7 +3,8 @@ import {Http, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {HeadersConstants} from '../shared/headers.constants';
 import {Routes} from '../shared/api.routes';
-import {Book} from '../shared/book';
+import {Book} from '../shared/entity/book';
+import {Word} from '../shared/entity/word';
 
 @Injectable()
 export class DataService {
@@ -20,6 +21,27 @@ export class DataService {
   public getAllBooks(): Observable<Array<Book>> {
     return Observable.create((observer) => {
       this.http.get(Routes.GET_ALL_BOOKS)
+        .catch(error => Observable.throw(error))
+        .subscribe(
+          result => {
+            observer.next(result.json());
+          },
+          error => {
+            observer.error(error);
+          }
+        );
+    }).take(1);
+  }
+
+
+  /**
+   * Gets All words by book id
+   *
+   * @param id - book id
+   */
+  public getBookWords(id: string): Observable<Array<Word>> {
+    return Observable.create((observer) => {
+      this.http.get(Routes.getAllWordsByBookId(id))
         .catch(error => Observable.throw(error))
         .subscribe(
           result => {

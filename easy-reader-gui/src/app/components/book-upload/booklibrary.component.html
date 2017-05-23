@@ -21,7 +21,7 @@
     </div>
 
     <div id="library-wrapper">
-      <div *ngFor="let book of bookList | async" class="book-row-wrapper">
+      <div *ngFor="let book of bookList | async" class="book-row-wrapper" [routerLink]="['/book-words/',book.id]">
         <div class="book-info-wrapper">
           <div class="book-name"><span>{{book.bookName}}</span></div>
           <div class="book-info">

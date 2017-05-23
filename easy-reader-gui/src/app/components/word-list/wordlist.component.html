@@ -1,0 +1,25 @@
+<article class="main-box">
+  <header class="article-header">
+    <h1 class="article-title-text">Word List for book : My American Romance</h1>
+  </header>
+  <article class="context-box">
+    <div id="words-container">
+      <div class="word-wrapper" *ngFor="let word of wordList | async">
+        <div class="action-panel">
+          <input [name]='word.id' [id]='word.id + "new"' type="radio" class="switch new" checked/>
+          <label [for]='word.id + "new"' class="status-switcher"></label>
+          <input [name]='word.id' [id]='word.id + "in-progress"' type="radio" class="switch in-progress"/>
+          <label [for]='word.id + "in-progress"' class="status-switcher"></label>
+          <input [name]='word.id' [id]='word.id + "learned"' [value]='word.id' type="radio" class="switch learned"/>
+          <label [for]='word.id + "learned"' class="status-switcher"></label>
+        </div>
+        <div class="word">
+          <div class="info-block"><span><span class="word-name">{{word.wordName}}</span> - <span class="translation">{{word.translation}}</span></span>
+          </div>
+          <div class="info-block"><span class="transcription">[not impl]</span></div>
+          <div class="info-block"><span>{{word.context}}</span></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</article>
