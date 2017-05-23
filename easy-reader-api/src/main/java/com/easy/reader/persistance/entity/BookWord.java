@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Слово из книги. Имеет контекст из книги.
+ *
  * @author dchernyshov
  */
 @Entity
@@ -23,10 +24,10 @@ import java.util.List;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BookWord extends BaseEntity implements DataTransferable<BookWord, BookWordDto> {
-    @ElementCollection
-    private List<String> context = new ArrayList<>();
+    @Lob
+    private String context;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "wordFk")
     private Word wordFk;
 
@@ -39,10 +40,10 @@ public class BookWord extends BaseEntity implements DataTransferable<BookWord, B
     @JoinColumn(name = "userFk")
     @XmlInverseReference(mappedBy = "bookWords")
     private User userFk;
-    
+
     @Enumerated(EnumType.STRING)
     private Status status = Status.NEW;
-    
+
     @Override
     public BookWordDto toWrapper(BookWord entity) {
         BookWordDto bookWordDto = new BookWordDto();

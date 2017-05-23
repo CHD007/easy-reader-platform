@@ -18,5 +18,5 @@ public class BookWordDto implements Serializable {
     private String translation;
     private Status status;
     private String bookName;
-    private List<String> context;
+    private String context;
 }

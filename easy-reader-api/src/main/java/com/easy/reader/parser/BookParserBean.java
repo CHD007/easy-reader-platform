@@ -98,7 +98,7 @@ public class BookParserBean {
         BookWord bookWord = new BookWord();
         bookWord.setWordFk(word);
         bookWord.setBookFk(parsedBook);
-        bookWord.setContext(Arrays.asList(wordsWithContext.get(word.getWordName())));
+        bookWord.setContext(wordsWithContext.get(word.getWordName()));
         bookWordDao.save(bookWord);
     }
 }
