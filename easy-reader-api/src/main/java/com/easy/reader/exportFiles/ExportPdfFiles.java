@@ -43,7 +43,7 @@ public class ExportPdfFiles {
         return file;
     }
 
-    public void writePdf(Long id) throws IOException, DocumentException {
+    private void writePdf(Long id) throws IOException, DocumentException {
         log.log(Level.INFO, "execute writePdf");
 
         List<BookWord> wordDtoArrayList = bookWordDao.findAllWordsByBookId(id);
@@ -75,12 +75,12 @@ public class ExportPdfFiles {
         table.addCell("Context");
 
         //fill table with info
-        for (int i = 0; i < wordDtoArrayList.size(); i++) {
-            table.addCell(new Paragraph(wordDtoArrayList.get(i).getWordFk().getWordName()));
-            table.addCell(new Paragraph(wordDtoArrayList.get(i).getWordFk().getTranscription(), transcription));
-            table.addCell(new Paragraph(wordDtoArrayList.get(i).getWordFk().getTranslation(), rus));
-            table.addCell(wordDtoArrayList.get(i).getContext());
-        }
+        bookWordDao.findAllWordsByBookId(id).forEach (word -> {
+            table.addCell(word.getWordFk().getWordName());
+            table.addCell(new Paragraph(word.getWordFk().getTranscription(), transcription));
+            table.addCell(new Paragraph(word.getWordFk().getTranslation(), rus));
+            table.addCell(word.getContext());
+        });
         document.add(table);
 
         //Close document
