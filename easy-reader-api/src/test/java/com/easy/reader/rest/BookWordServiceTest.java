@@ -82,4 +82,10 @@ public class BookWordServiceTest {
         Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         Assert.assertEquals(Status.LEARNED, bookWordDao.findById(1L).getStatus());
     }
+    
+    @Test
+    public void testGetWrongBook() {
+        Response response = target.path("500").request().get();
+        Assert.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
 }
