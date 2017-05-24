@@ -70,7 +70,8 @@ public class BookWordServiceTest {
     
     @Test
     public void testGetBookWord() {
-        BookWordDto bookWordDto = target.path("1").request().get(BookWordDto.class);
+        Response response = target.path("1").request().get();
+        BookWordDto bookWordDto = response.readEntity(BookWordDto.class);
         Assert.assertEquals("Head First", bookWordDto.getBookName());
     }
     
