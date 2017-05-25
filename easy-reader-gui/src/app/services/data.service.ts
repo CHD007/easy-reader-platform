@@ -1,17 +1,19 @@
 import {Injectable} from '@angular/core';
-import {Http, RequestOptions} from '@angular/http';
+import {Headers, Http, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {HeadersConstants} from '../shared/headers.constants';
 import {Routes} from '../shared/api.routes';
 import {Book} from '../shared/entity/book';
-import {Word} from '../shared/entity/word';
+import {Status, Word} from '../shared/entity/word';
 
 @Injectable()
 export class DataService {
 
-  constructor(private http: Http) {
-  }
+  private headers: Headers = new Headers();
 
+  constructor(private http: Http) {
+    this.headers.append(HeadersConstants.CONTENT_TYPE, 'application/x-www-form-urlencoded; chartset=UTF-8');
+  }
 
   /**
    * Gets all books from the server via GET request
@@ -38,10 +40,11 @@ export class DataService {
    * Gets All words by book id
    *
    * @param id - book id
+   * @param page - number of page
    */
-  public getBookWords(id: string): Observable<Array<Word>> {
+  public getBookWords(id: string, page = 1): Observable<Array<Word>> {
     return Observable.create((observer) => {
-      this.http.get(Routes.getAllWordsByBookId(id))
+      this.http.get(Routes.getAllWordsByBookId(id, page))
         .catch(error => Observable.throw(error))
         .subscribe(
           result => {
@@ -54,6 +57,22 @@ export class DataService {
     }).take(1);
   }
 
+
+  public changeWordStatus(wordId: number, status: string) {
+    return Observable.create((observer) => {
+      let params = new URLSearchParams();
+      params.append('status', status);
+      this.http.post(Routes.updateWordStatus(wordId), params.toString(), {headers: this.headers})
+        .catch(error => Observable.throw(error))
+        .subscribe(
+          result => {
+          },
+          error => {
+            observer.error(error);
+          }
+        );
+    }).take(1);
+  }
 
   /**
    * Gets all books from the server via GET request

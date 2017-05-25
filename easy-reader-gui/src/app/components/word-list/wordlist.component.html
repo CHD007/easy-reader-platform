@@ -6,15 +6,22 @@
     <div id="words-container">
       <div class="word-wrapper" *ngFor="let word of wordList | async">
         <div class="action-panel">
-          <input [name]='word.id' [id]='word.id + "new"' type="radio" class="switch new" checked/>
+          <input (click)="changeStatus($event,word)" [name]='word.id' [id]='word.id + "new"' type="radio"
+                 class="switch new" value="NEW" [checked]="word.status == 'NEW'"/>
           <label [for]='word.id + "new"' class="status-switcher"></label>
-          <input [name]='word.id' [id]='word.id + "in-progress"' type="radio" class="switch in-progress"/>
+          <input (click)="changeStatus($event,word)" [name]='word.id' [id]='word.id + "in-progress"' type="radio"
+                 value="IN_PROGRESS" class="switch in-progress" [checked]="word.status == 'IN_PROGRESS'"/>
           <label [for]='word.id + "in-progress"' class="status-switcher"></label>
-          <input [name]='word.id' [id]='word.id + "learned"' [value]='word.id' type="radio" class="switch learned"/>
+          <input (click)="changeStatus($event,word)" [name]='word.id' [id]='word.id + "learned"'
+                 value="LEARNED" type="radio" class="switch learned" [checked]="word.status == 'LEARNED'"/>
           <label [for]='word.id + "learned"' class="status-switcher"></label>
         </div>
         <div class="word">
-          <div class="info-block"><span><span class="word-name">{{word.wordName}}</span> - <span class="translation">{{word.translation}}</span></span>
+          <div class="info-block"><span><span class="word-name"
+                                              [ngClass]="{'yellow':word.status=='IN_PROGRESS','black':word.status=='LEARNED','green':word.status=='NEW'}">
+            {{word.wordName}}
+          </span> - <span
+            class="translation">{{word.translation}}</span></span>
           </div>
           <div class="info-block"><span class="transcription">[not impl]</span></div>
           <div class="info-block"><span>{{word.context}}</span></div>

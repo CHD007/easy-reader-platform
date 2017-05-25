@@ -1,11 +1,11 @@
 export class Word {
-  private id: number;
-  private wordName: string;
-  private transcription: string;
-  private translation: string;
-  private status: string;
-  private bookName: string;
-  private context: string;
+  public id: number;
+  public wordName: string;
+  public transcription: string;
+  public translation: string;
+  public status: string;
+  public bookName: string;
+  public context: string;
 }
 
 export enum Status{

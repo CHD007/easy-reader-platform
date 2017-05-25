@@ -31,10 +31,10 @@ public class BookWordService {
     }
     
     @POST
-    @Path("/{bookWordId}/update_status")
-    @Consumes(MediaType.TEXT_PLAIN)
+    @Path("{bookWordId}/update_status")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateBookWordStatus(@PathParam("bookWordId") Long id, String status) {
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response updateBookWordStatus(@PathParam("bookWordId") Long id, @FormParam("status") String status) {
         BookWord bookWord = bookWordDao.findById(id);
         if (bookWord != null) {
             bookWord.setStatus(Status.valueOf(status));

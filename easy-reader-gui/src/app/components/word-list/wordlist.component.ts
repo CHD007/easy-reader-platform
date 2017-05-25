@@ -3,7 +3,7 @@ import {DataService} from '../../services/data.service';
 import {ActivatedRoute, Params} from "@angular/router";
 import {Location} from '@angular/common';
 import {Observable} from "rxjs/Observable";
-import {Word} from "../../shared/entity/word";
+import {Status, Word} from "../../shared/entity/word";
 
 @Component({
   selector: 'word-list',
@@ -20,7 +20,17 @@ export class WordListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.wordList = this.route.params.switchMap((params: Params) => this.service.getBookWords(params['id']));
+    this.wordList = this.route.params.switchMap((params: Params) => this.service.getBookWords(params['id'], 1));
+  }
+
+
+  changeStatus(event, word: Word) {
+    let value: string = event.target.value;
+    if (word.status.toString() !== value) {
+      word.status = Status[Status[value]];
+      this.service.changeWordStatus(word.id,word.status).subscribe();
+    }
+
   }
 
 

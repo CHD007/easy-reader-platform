@@ -59,11 +59,12 @@ public class BookService {
     }
 
     @GET
-    @Path("{bookId}/book_words")
+    @Path("{bookId}/book_words/page/{page}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BookWordDto> getBookWords(@PathParam("bookId") Long bookId) {
-        return bookWordDao.findAllWordsByBookId(bookId).stream().map(en -> en.toWrapper(en)).collect(Collectors.toList());
+    public List<BookWordDto> getBookWords(@PathParam("bookId") Long bookId, @PathParam("page") int page) {
+        return bookWordDao.findAllWordsByBookId(bookId, page).stream().map(en -> en.toWrapper(en)).collect(Collectors.toList());
     }
+
 
     @DELETE
     @Path("delete/{bookId}")
