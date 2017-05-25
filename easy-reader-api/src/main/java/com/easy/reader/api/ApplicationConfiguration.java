@@ -1,6 +1,6 @@
 package com.easy.reader.api;
 
-import com.easy.reader.exportFiles.services.RestClient;
+import com.easy.reader.exportFiles.services.ExportService;
 import com.easy.reader.filters.CorsFilter;
 import com.easy.reader.rest.BookService;
 import com.easy.reader.rest.BookUploadService;
@@ -23,7 +23,7 @@ public class ApplicationConfiguration extends Application {
                 CorsFilter.class,
                 BookUploadService.class,
                 MultiPartFeature.class,
-                RestClient.class
+                ExportService.class
         ));
     }
 }
