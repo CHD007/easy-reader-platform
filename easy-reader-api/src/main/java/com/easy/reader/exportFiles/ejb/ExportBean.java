@@ -25,15 +25,15 @@ public class ExportBean {
 
     private static Logger log = Logger.getLogger(ExportExcelFiles.class.getName());
 
-    public File exportInPdf(Long id) throws IOException, DocumentException {
+    public File exportInPdf(Long id, int startWord, int endWord) throws IOException, DocumentException {
         log.log(Level.INFO, "execute exportInPdf");
-
-        return exportPdfFiles.exportPdfFiles(id);
+        return exportPdfFiles.exportPdfFiles(id, startWord, endWord);
 
     }
-    public File exportInExcel(Long id) throws IOException, WriteException, BiffException {
+
+    public File exportInExcel(Long id, int startWord, int endWord) throws IOException, WriteException, BiffException {
 
         log.log(Level.INFO, "execute exportInExcel");
-        return exportExcelFiles.exportExcel(id);
+        return exportExcelFiles.exportExcel(id, startWord, endWord);
     }
 }

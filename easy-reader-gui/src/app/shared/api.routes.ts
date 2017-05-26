@@ -11,4 +11,8 @@ export class Routes {
   public static updateWordStatus(id: number) {
     return `${Routes.baseUrl}/book_words/${id}/update_status`;
   }
+
+  public static exportPDF(id: number) {
+    return `${Routes.baseUrl}/export/pdf/${id}`;
+  }
 }

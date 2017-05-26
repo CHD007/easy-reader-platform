@@ -47,6 +47,20 @@ public class BookWordDao extends GenericDao<BookWord, Long> {
     }
 
     /**
+     * Finds all words by book id and limit result by page
+     *
+     * @param bookId - id of the book
+     * @return - Collection of words
+     */
+    public List<BookWord> findAllWordsByBookId(Long bookId, int startWord, int endWord) {
+        return entityManager.createQuery("select w from " + getPersistentClass().getSimpleName() + " w where w.bookFk.id = ?1", BookWord.class)
+                .setParameter(1, bookId)
+                .setFirstResult(startWord - 1)
+                .setMaxResults(endWord - 1)
+                .getResultList();
+    }
+
+    /**
      * Gets the total number of learned words in book
      *
      * @param bookId - id of the book

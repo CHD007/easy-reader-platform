@@ -2,31 +2,77 @@
   <header class="article-header">
     <h1 class="article-title-text">Word List for book : My American Romance</h1>
   </header>
-  <article class="context-box">
-    <div id="words-container">
-      <div class="word-wrapper" *ngFor="let word of wordList | async">
-        <div class="action-panel">
-          <input (click)="changeStatus($event,word)" [name]='word.id' [id]='word.id + "new"' type="radio"
-                 class="switch new" value="NEW" [checked]="word.status == 'NEW'"/>
-          <label [for]='word.id + "new"' class="status-switcher"></label>
-          <input (click)="changeStatus($event,word)" [name]='word.id' [id]='word.id + "in-progress"' type="radio"
-                 value="IN_PROGRESS" class="switch in-progress" [checked]="word.status == 'IN_PROGRESS'"/>
-          <label [for]='word.id + "in-progress"' class="status-switcher"></label>
-          <input (click)="changeStatus($event,word)" [name]='word.id' [id]='word.id + "learned"'
-                 value="LEARNED" type="radio" class="switch learned" [checked]="word.status == 'LEARNED'"/>
-          <label [for]='word.id + "learned"' class="status-switcher"></label>
-        </div>
-        <div class="word">
-          <div class="info-block"><span><span class="word-name"
-                                              [ngClass]="{'yellow':word.status=='IN_PROGRESS','black':word.status=='LEARNED','green':word.status=='NEW'}">
+  <div class="flex-row">
+    <div id="word-section">
+      <article class="context-box">
+        <div id="words-container">
+          <div class="word-wrapper" *ngFor="let word of wordList | async">
+            <div class="action-panel">
+              <input (click)="changeStatus($event,word)" [name]='word.id' [id]='word.id + "new"' type="radio"
+                     class="switch new" value="NEW" [checked]="word.status == 'NEW'"/>
+              <label [for]='word.id + "new"' class="status-switcher"></label>
+              <input (click)="changeStatus($event,word)" [name]='word.id' [id]='word.id + "in-progress"' type="radio"
+                     value="IN_PROGRESS" class="switch in-progress" [checked]="word.status == 'IN_PROGRESS'"/>
+              <label [for]='word.id + "in-progress"' class="status-switcher"></label>
+              <input (click)="changeStatus($event,word)" [name]='word.id' [id]='word.id + "learned"'
+                     value="LEARNED" type="radio" class="switch learned" [checked]="word.status == 'LEARNED'"/>
+              <label [for]='word.id + "learned"' class="status-switcher"></label>
+            </div>
+            <div class="word">
+              <div class="info-block"><span><span class="word-name"
+                                                  [ngClass]="{'yellow':word.status=='IN_PROGRESS','black':word.status=='LEARNED','green':word.status=='NEW'}">
             {{word.wordName}}
           </span> - <span
-            class="translation">{{word.translation}}</span></span>
+                class="translation">{{word.translation}}</span></span>
+              </div>
+              <div class="info-block"><span class="transcription">[not impl]</span></div>
+              <div class="info-block"><span>{{word.context}}</span></div>
+            </div>
           </div>
-          <div class="info-block"><span class="transcription">[not impl]</span></div>
-          <div class="info-block"><span>{{word.context}}</span></div>
+        </div>
+      </article>
+    </div>
+
+    <div id="menu-section">
+
+      <div class="expandable" [ngClass]="{'active':isViewConfigActive}">
+        <div class="header-exp" (click)="changeViewConfigView()">
+          <h3>View Configuration</h3>
+        </div>
+        <div class="body-exp">
+          <div class="flex-row">
+            <div class="horizontal-control">
+              <label for="page-input">Current Page</label>
+              <input [(ngModel)]='currentPage' id="page-input" name="page-input" type="text" class="menu-page-input">
+            </div>
+          </div>
+          <div id="page-control">
+            <div class="red-button page-section" (click)="nextPage(1)">Next</div>
+            <div class="red-button page-section" (click)="nextPage(-1)">Previous</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="expandable" [ngClass]="{'active':isExportActive}">
+        <div class="header-exp" (click)="changeExportMenu()">
+          <h3>Export Your Words</h3>
+        </div>
+        <div class="body-exp">
+          <p class="body-content">
+            Here you can export words with its translation in tab separated values
+          </p>
+          <div class="flex-row">
+            <span>Words</span>
+            <input name="start-word" id="start-word" [(ngModel)]='startWord' type="text" class="menu-page-input">
+            <span>-</span>
+            <input name="end-word" id="end-word" [(ngModel)]='endWord' type="text" class="menu-page-input">
+          </div>
+          <div class="red-button" (click)="exportPDF()">Export Words</div>
         </div>
       </div>
     </div>
-  </article>
+
+  </div>
+
+
 </article>

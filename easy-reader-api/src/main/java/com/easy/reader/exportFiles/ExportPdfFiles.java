@@ -35,15 +35,15 @@ public class ExportPdfFiles {
     @EJB
     private BookWordDao bookWordDao;
 
-    public File exportPdfFiles(Long id) throws IOException, DocumentException {
+    public File exportPdfFiles(Long id, int startWord, int endWord) throws IOException, DocumentException {
         log.log(Level.INFO, "execute exportPdfFiles");
         File file = new File(DEST);
         file.getParentFile().mkdirs();
-        writePdf(id);
+        writePdf(id, startWord, endWord);
         return file;
     }
 
-    private void writePdf(Long id) throws IOException, DocumentException {
+    private void writePdf(Long id, int startWord, int endWord) throws IOException, DocumentException {
         log.log(Level.INFO, "execute writePdf");
 
         List<BookWord> wordDtoArrayList = bookWordDao.findAllWordsByBookId(id);
@@ -75,7 +75,7 @@ public class ExportPdfFiles {
         table.addCell("Context");
 
         //fill table with info
-        bookWordDao.findAllWordsByBookId(id).forEach (word -> {
+        bookWordDao.findAllWordsByBookId(id, startWord, endWord).forEach(word -> {
             table.addCell(word.getWordFk().getWordName());
             table.addCell(new Paragraph(word.getWordFk().getTranscription(), transcription));
             table.addCell(new Paragraph(word.getWordFk().getTranslation(), rus));

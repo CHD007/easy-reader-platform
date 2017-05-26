@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http, RequestOptions} from '@angular/http';
+import {Headers, Http, RequestOptions, ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {HeadersConstants} from '../shared/headers.constants';
 import {Routes} from '../shared/api.routes';
 import {Book} from '../shared/entity/book';
 import {Status, Word} from '../shared/entity/word';
+
+
+
 
 @Injectable()
 export class DataService {
@@ -35,6 +38,30 @@ export class DataService {
     }).take(1);
   }
 
+
+  public exportPDF(id: number, startWord: number, endWord: number) {
+    let headers = new Headers({
+
+    });
+    let params: URLSearchParams = new URLSearchParams();
+    let options = new RequestOptions({headers: headers});
+    options.responseType = ResponseContentType.Blob;
+    options.headers = headers;
+    options.params = <any>params;
+
+    return Observable.create((observer) => {
+      this.http.get(Routes.exportPDF(id), options)
+        .catch(error => Observable.throw(error))
+        .subscribe(
+          result => {
+            observer.next(result);
+          },
+          error => {
+            observer.error(error);
+          }
+        );
+    }).take(1);
+  }
 
   /**
    * Gets All words by book id
