@@ -29,11 +29,11 @@ public class ExportExcelFiles {
     @EJB
     private BookWordDao bookWordDao;
 
-    public File exportExcel(Long id) throws IOException, WriteException, BiffException {
+    public File exportExcel(Long id, int startWord, int endWord) throws IOException, WriteException, BiffException {
         log.log(Level.INFO, "execute exportExcel");
         File file = new File(fileName);
         createExcel();
-        writingExcelFile(id);
+        writingExcelFile(id, startWord, endWord);
         return file;
     }
 
@@ -55,26 +55,24 @@ public class ExportExcelFiles {
         workbook.close();
     }
 
-    public void writingExcelFile(Long id) throws IOException, BiffException, WriteException {
+    public void writingExcelFile(Long id, int startWord, int endWord) throws IOException, BiffException, WriteException {
         log.log(Level.INFO, "execute writingExcelFile");
         Workbook wb = null;
         wb = Workbook.getWorkbook(new File(fileName));
         WritableWorkbook copy = Workbook.createWorkbook(new File(fileName), wb);
-        List<BookWord> wordDtoArrayList = bookWordDao.findAllWordsByBookId(id);
         WritableSheet copySheet = copy.getSheet(0);
         //fill file with info
 
-
-        bookWordDao.findAllWordsByBookId(id).forEach(word -> {
+        bookWordDao.findAllWordsByBookId(id, startWord, endWord).forEach(word -> {
             try {
                 Label lWord = new Label(0, copySheet.getRows(), word.getWordFk().getWordName());
                 copySheet.addCell(lWord);
-                Label lTranscription = new Label(1,copySheet.getRows()-1, word.getWordFk().getTranscription());
+                Label lTranscription = new Label(1, copySheet.getRows() - 1, word.getWordFk().getTranscription());
                 copySheet.addCell(lTranscription);
-                Label lTranslate = new Label(2, copySheet.getRows()-1, word.getWordFk().getTranslation());
+                Label lTranslate = new Label(2, copySheet.getRows() - 1, word.getWordFk().getTranslation());
                 copySheet.addCell(lTranslate);
                 if (word.getContext() != null) {
-                    Label lBook = new Label(3, copySheet.getRows()-1, word.getContext());
+                    Label lBook = new Label(3, copySheet.getRows() - 1, word.getContext());
                     copySheet.addCell(lBook);
                 }
             } catch (WriteException e) {

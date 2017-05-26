@@ -6,10 +6,7 @@ import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 
 import javax.ejb.EJB;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -20,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * Created by kisa on 16.05.2017.
  */
-@Path("/lubovRest")
+@Path("/export")
 public class ExportService {
 
     private static Logger log = Logger.getLogger(ExportService.class.getName());
@@ -30,32 +27,34 @@ public class ExportService {
 
     @GET
     @Path("/pdf/{bookId}")
-    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getPdfFile(@PathParam("bookId") Long id) {
+    public Response getPdfFile(@PathParam("bookId") Long id,
+                               @QueryParam("startWord") @DefaultValue("1") int startWord,
+                               @QueryParam("endWord") @DefaultValue("100") int endWord) {
         log.log(Level.INFO, "in GET method getPdfFile");
-        File file = null;
+        File file;
         try {
-            file = bean.exportInPdf(id);
+            file = bean.exportInPdf(id, startWord, endWord);
         } catch (IOException | DocumentException e) {
             log.log(Level.SEVERE, "execute getPdfFile, IOException | DocumentException error: ", e);
             //Does it true or wrong user response? Should it be more informative?
             return Response.serverError().entity("Exception in exportPdf").build();
         }
 
-        return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-                .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"") //optional
+        return Response.ok(file, "application/pdf")
                 .build();
     }
 
     @GET
     @Path("/excel/{bookId}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getExcelFile(@PathParam("bookId") Long id) {
+    public Response getExcelFile(@PathParam("bookId") Long id,
+                                 @QueryParam("startWord") @DefaultValue("1") int startWord,
+                                 @QueryParam("endWord") @DefaultValue("100") int endWord) {
         log.log(Level.INFO, "in GET method getExcelFile");
-        File file = null;
+        File file;
         try {
-            file = bean.exportInExcel(id);
-        } catch (IOException|WriteException|BiffException e) {
+            file = bean.exportInExcel(id, startWord, endWord);
+        } catch (IOException | WriteException | BiffException e) {
             log.log(Level.SEVERE, "execute getExcelFile, IOException|WriteException|BiffException error: ", e);
             return Response.serverError().entity("Exception in exportExcel").build();
         }

@@ -4,6 +4,7 @@ import com.easy.reader.exportFiles.services.ExportService;
 import com.easy.reader.filters.CorsFilter;
 import com.easy.reader.rest.BookService;
 import com.easy.reader.rest.BookUploadService;
+import com.easy.reader.rest.BookWordService;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import javax.ws.rs.ApplicationPath;
@@ -14,13 +15,15 @@ import java.util.Set;
 
 @ApplicationPath("/")
 public class ApplicationConfiguration extends Application {
-    public ApplicationConfiguration() {}
+    public ApplicationConfiguration() {
+    }
 
     @Override
     public Set<Class<?>> getClasses() {
         return new HashSet<>(Arrays.asList(
                 BookService.class,
                 CorsFilter.class,
+                BookWordService.class,
                 BookUploadService.class,
                 MultiPartFeature.class,
                 ExportService.class

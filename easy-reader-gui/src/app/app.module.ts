@@ -15,10 +15,14 @@ import {OverviewComponent} from './components/overview/overview.component';
 import {HowToComponent} from "./components/howtostart/howto.component";
 import {BookLibraryComponent} from "./components/book-upload/booklibrary.component";
 import {DataService} from "./services/data.service";
+import {WordListComponent} from "./components/word-list/wordlist.component";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   imports: [
     BrowserModule,
+    CommonModule,
+
     HttpModule,
     FormsModule,
     routing
@@ -28,6 +32,7 @@ import {DataService} from "./services/data.service";
     OverviewComponent,
     DropdownComponent,
     HowToComponent,
+    WordListComponent,
     BookLibraryComponent,
     LeftMenu,
     HomeComponent,

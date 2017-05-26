@@ -13,6 +13,8 @@ import java.util.List;
  */
 @Stateless
 public class BookWordDao extends GenericDao<BookWord, Long> {
+    private static final int DEFAULT_OFFSET = 100;
+
     public BookWordDao() {
         super(BookWord.class);
     }
@@ -30,7 +32,37 @@ public class BookWordDao extends GenericDao<BookWord, Long> {
     }
 
     /**
+     * Finds all words by book id and limit result by page
+     *
+     * @param bookId - id of the book
+     * @param page   - page number
+     * @return - Collection of words
+     */
+    public List<BookWord> findAllWordsByBookId(Long bookId, int page) {
+        return entityManager.createQuery("select w from " + getPersistentClass().getSimpleName() + " w where w.bookFk.id = ?1", BookWord.class)
+                .setParameter(1, bookId)
+                .setFirstResult((page - 1) * DEFAULT_OFFSET)
+                .setMaxResults(DEFAULT_OFFSET)
+                .getResultList();
+    }
+
+    /**
+     * Finds all words by book id and limit result by page
+     *
+     * @param bookId - id of the book
+     * @return - Collection of words
+     */
+    public List<BookWord> findAllWordsByBookId(Long bookId, int startWord, int endWord) {
+        return entityManager.createQuery("select w from " + getPersistentClass().getSimpleName() + " w where w.bookFk.id = ?1", BookWord.class)
+                .setParameter(1, bookId)
+                .setFirstResult(startWord - 1)
+                .setMaxResults(endWord - 1)
+                .getResultList();
+    }
+
+    /**
      * Gets the total number of learned words in book
+     *
      * @param bookId - id of the book
      * @return - number of learned words
      */
